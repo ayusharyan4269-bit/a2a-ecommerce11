@@ -1,0 +1,3268 @@
+{
+  "version": 3,
+  "sources": [
+    "../../AgentReputation.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAoDE;;AAAwD;AAAxD;AACA;;AAA4D;AAA5D;AACA;AAAoD;AAApD;AAJF;;;;;;AAAA;;;AAAA;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAuHG;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAtHD;AASqB;;AAAnB;AAFD;AAAA;AAQQ;AAZT;AAYS;AAAA;AAAA;AAAP;AAVO;AAWa;;AAXb;AAWC;AAAA;;AAAD;AAAP;AAXO;AAmBK;;AAnBL;AAauB;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAM9B;AACwB;AAxB1B;;AAwB0B;AAAA;AAA+B;AAA/B;AAxB1B;;AAwBE;AAAA;AAXF;AAAA;AAcA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACE;;AAA2B;AA7B7B;AA6B6B;AAAA;AAA3B;AAAA;AAxBO;AAAA;AAAA;AAyBA;AAAA;AAAA;;AAAP;AAI0B;AAA1B;AAAA;;AAAA;AAAA;AANF;AAAA;AAYA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;AAtCT;AAsCS;AAAA;AAAA;AAAP;AApCO;AAAA;;AAAA;AAqCA;AAAA;AAAA;;AAAP;AACO;;AAAS;;AAAT;AAAP;AAEO;;AAAA;;AAAA;AAAP;AAEsB;AAAA;AAAA;AACf;AAAA;;AAAA;AAA4B;AAA5B;AAAP;AAGqB;AAAA;AAAA;AAAA;;AAAA;AAArB;AAAA;;AACwB;AAAA;AAAA;AAA+B;AAA/B;AAAxB;AAAA;;AACA;AAE4B;AArD9B;;AAqD8B;AAAA;AAAmC;AAAnC;AArD9B;;AAqDE;AAAA;AAfF;AAAA;AAoBC;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAvDQ;AAAA;AAAA;AAyDA;AAAA;AAAA;;AAAP;AACsB;AAAA;AAAA;AAClB;AAAA;AAAA;AAAJ;;;AACgB;AALjB;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAO6B;;AAAA;AAAA;AAAqB;;AAArB;AAAD;;AAAA;AAP5B;;;AAWA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAlEQ;AAAA;AAAA;AAoEA;AAAA;AAAA;;AAAP;AACa;AAAA;AAHd;AAAA;AAAA;AAAA;AAAA;AAAA;AAMA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAxEQ;AAAA;AAAA;AA0EA;AAAA;AAAA;;AAAP;AACa;AAAA;AAAN;;;AAHR;AAAA;AAAA;AAAA;AAAA;AAAA;AAMA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AA9EQ;AAAA;AAAA;AAgFH;AAAA;;AAAJ;;;AACgB;AAHjB;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAKe;AALf;;;AAUQ;AA5FT;;AA4FS;AAAA;AAFR;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAOQ;AAhGT;;AAgGS;AAAA;AAFR;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAQC;;AAA2B;AAxG7B;AAwG6B;AAAA;AAA3B;AAAA;AArGF;AAsG6B;AAA3B;AAFF;AAAA;AAME;;AAA2B;AA7G7B;AA6G6B;AAAA;AAA3B;AAAA;AA1GF;AA2G6B;AAA3B;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACE;;AAA2B;AAlH7B;AAkH6B;AAAA;AAA3B;AAAA;AAlHF;AAmHE;AAAA;AAFF;AAAA;AAOE;;AAA2B;AAxH7B;AAwH6B;AAAA;AAA3B;AAAA;AAFD;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1 32 8"
+    },
+    "7": {
+      "op": "bytecblock \"a\" \"admin\" 0x151f7c75 \"paused\" \"agentCount\" \"totalFeedbacks\""
+    },
+    "55": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "reinterpret_bool%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_bool%0#0"
+      ]
+    },
+    "57": {
+      "op": "bnz main_after_if_else@2",
+      "stack_out": []
+    },
+    "60": {
+      "op": "bytec 4 // \"agentCount\"",
+      "defined_out": [
+        "\"agentCount\""
+      ],
+      "stack_out": [
+        "\"agentCount\""
+      ]
+    },
+    "62": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"agentCount\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"agentCount\"",
+        "0"
+      ]
+    },
+    "63": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "64": {
+      "op": "bytec 5 // \"totalFeedbacks\"",
+      "defined_out": [
+        "\"totalFeedbacks\""
+      ],
+      "stack_out": [
+        "\"totalFeedbacks\""
+      ]
+    },
+    "66": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"totalFeedbacks\"",
+        "0"
+      ]
+    },
+    "67": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "68": {
+      "op": "bytec_3 // \"paused\"",
+      "defined_out": [
+        "\"paused\""
+      ],
+      "stack_out": [
+        "\"paused\""
+      ]
+    },
+    "69": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"paused\"",
+        "0"
+      ]
+    },
+    "70": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "71": {
+      "block": "main_after_if_else@2",
+      "stack_in": [],
+      "op": "pushbytes 0x2487c32c // method \"deleteApplication()void\"",
+      "defined_out": [
+        "Method(deleteApplication()void)"
+      ],
+      "stack_out": [
+        "Method(deleteApplication()void)"
+      ]
+    },
+    "77": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(deleteApplication()void)",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "Method(deleteApplication()void)",
+        "tmp%0#1"
+      ]
+    },
+    "80": {
+      "op": "match main_deleteApplication_route@4",
+      "stack_out": []
+    },
+    "84": {
+      "block": "main_switch_case_next@5",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "86": {
+      "op": "!",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "87": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "88": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "90": {
+      "op": "bz main_create_NoOp@20",
+      "stack_out": []
+    },
+    "93": {
+      "op": "pushbytess 0xf25663ad 0x6662296f 0x21f34c9b 0x8d698517 0xe41e8f94 0x0e8f58fa 0xd5de4e57 0x575e5428 0xb73d0fad 0x0178f94b 0x1b529de8 0x7ee1b9cc // method \"registerAgent()void\", method \"deregisterAgent(address)void\", method \"submitFeedback(address,uint64)void\", method \"getReputation(address)uint64\", method \"getAgentProfile(address)(uint64,uint64,uint64,uint64)\", method \"getFeedbackCount(address)uint64\", method \"isRegistered(address)uint64\", method \"getAgentCount()uint64\", method \"getTotalFeedbacks()uint64\", method \"pause()void\", method \"unpause()void\", method \"transferAdmin(address)void\"",
+      "defined_out": [
+        "Method(deregisterAgent(address)void)",
+        "Method(getAgentCount()uint64)",
+        "Method(getAgentProfile(address)(uint64,uint64,uint64,uint64))",
+        "Method(getFeedbackCount(address)uint64)",
+        "Method(getReputation(address)uint64)",
+        "Method(getTotalFeedbacks()uint64)",
+        "Method(isRegistered(address)uint64)",
+        "Method(pause()void)",
+        "Method(registerAgent()void)",
+        "Method(submitFeedback(address,uint64)void)",
+        "Method(transferAdmin(address)void)",
+        "Method(unpause()void)"
+      ],
+      "stack_out": [
+        "Method(registerAgent()void)",
+        "Method(deregisterAgent(address)void)",
+        "Method(submitFeedback(address,uint64)void)",
+        "Method(getReputation(address)uint64)",
+        "Method(getAgentProfile(address)(uint64,uint64,uint64,uint64))",
+        "Method(getFeedbackCount(address)uint64)",
+        "Method(isRegistered(address)uint64)",
+        "Method(getAgentCount()uint64)",
+        "Method(getTotalFeedbacks()uint64)",
+        "Method(pause()void)",
+        "Method(unpause()void)",
+        "Method(transferAdmin(address)void)"
+      ]
+    },
+    "155": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(deregisterAgent(address)void)",
+        "Method(getAgentCount()uint64)",
+        "Method(getAgentProfile(address)(uint64,uint64,uint64,uint64))",
+        "Method(getFeedbackCount(address)uint64)",
+        "Method(getReputation(address)uint64)",
+        "Method(getTotalFeedbacks()uint64)",
+        "Method(isRegistered(address)uint64)",
+        "Method(pause()void)",
+        "Method(registerAgent()void)",
+        "Method(submitFeedback(address,uint64)void)",
+        "Method(transferAdmin(address)void)",
+        "Method(unpause()void)",
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "Method(registerAgent()void)",
+        "Method(deregisterAgent(address)void)",
+        "Method(submitFeedback(address,uint64)void)",
+        "Method(getReputation(address)uint64)",
+        "Method(getAgentProfile(address)(uint64,uint64,uint64,uint64))",
+        "Method(getFeedbackCount(address)uint64)",
+        "Method(isRegistered(address)uint64)",
+        "Method(getAgentCount()uint64)",
+        "Method(getTotalFeedbacks()uint64)",
+        "Method(pause()void)",
+        "Method(unpause()void)",
+        "Method(transferAdmin(address)void)",
+        "tmp%10#0"
+      ]
+    },
+    "158": {
+      "op": "match registerAgent deregisterAgent submitFeedback getReputation getAgentProfile getFeedbackCount isRegistered getAgentCount getTotalFeedbacks pause unpause transferAdmin",
+      "stack_out": []
+    },
+    "184": {
+      "op": "err"
+    },
+    "185": {
+      "block": "main_create_NoOp@20",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "191": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ]
+    },
+    "194": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "198": {
+      "op": "err"
+    },
+    "199": {
+      "block": "main_deleteApplication_route@4",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "201": {
+      "op": "pushint 5 // DeleteApplication",
+      "defined_out": [
+        "DeleteApplication",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0",
+        "DeleteApplication"
+      ]
+    },
+    "203": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "204": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "206": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "207": {
+      "error": "OnCompletion must be DeleteApplication && can only call when not creating",
+      "op": "assert // OnCompletion must be DeleteApplication && can only call when not creating",
+      "stack_out": []
+    },
+    "208": {
+      "op": "b deleteApplication"
+    },
+    "211": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\""
+      ],
+      "stack_out": [
+        "\"admin\""
+      ]
+    },
+    "212": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"admin\"",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "\"admin\"",
+        "tmp%0#0"
+      ]
+    },
+    "214": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "215": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "216": {
+      "op": "return",
+      "stack_out": []
+    },
+    "217": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.registerAgent[routing]",
+      "params": {},
+      "block": "registerAgent",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "218": {
+      "op": "bytec_3 // \"paused\"",
+      "defined_out": [
+        "\"paused\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"paused\""
+      ]
+    },
+    "219": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "220": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "221": {
+      "op": "!",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "222": {
+      "error": "Contract is paused",
+      "op": "assert // Contract is paused",
+      "stack_out": []
+    },
+    "223": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\""
+      ],
+      "stack_out": [
+        "\"a\""
+      ]
+    },
+    "224": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"a\"",
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "\"a\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "226": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "227": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "maybe_exists%1#0"
+      ],
+      "stack_out": [
+        "_%0#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "228": {
+      "op": "bury 1",
+      "stack_out": [
+        "maybe_exists%1#0"
+      ]
+    },
+    "230": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "231": {
+      "error": "Agent already registered",
+      "op": "assert // Agent already registered",
+      "stack_out": []
+    },
+    "232": {
+      "op": "bytec_0 // \"a\"",
+      "stack_out": [
+        "\"a\""
+      ]
+    },
+    "233": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"a\"",
+        "materialized_values%1#0"
+      ],
+      "stack_out": [
+        "\"a\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "235": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "236": {
+      "op": "pushbytes 0x0000000000000000000000000000000000000000000000000000000000000001",
+      "defined_out": [
+        "0x0000000000000000000000000000000000000000000000000000000000000001",
+        "box_prefixed_key%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%1#0",
+        "0x0000000000000000000000000000000000000000000000000000000000000001"
+      ]
+    },
+    "270": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "271": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "272": {
+      "op": "bytec 4 // \"agentCount\"",
+      "defined_out": [
+        "\"agentCount\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"agentCount\""
+      ]
+    },
+    "274": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "275": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "276": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "277": {
+      "op": "+",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "278": {
+      "op": "bytec 4 // \"agentCount\"",
+      "stack_out": [
+        "tmp%3#0",
+        "\"agentCount\""
+      ]
+    },
+    "280": {
+      "op": "swap",
+      "stack_out": [
+        "\"agentCount\"",
+        "tmp%3#0"
+      ]
+    },
+    "281": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "282": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "283": {
+      "op": "return",
+      "stack_out": []
+    },
+    "284": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.deregisterAgent[routing]",
+      "params": {},
+      "block": "deregisterAgent",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "287": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "288": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "289": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "290": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "291": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "292": {
+      "op": "txn Sender",
+      "defined_out": [
+        "agent#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%0#1"
+      ]
+    },
+    "294": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "agent#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "295": {
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "agent#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%0#1",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "296": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "agent#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "297": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "agent#0",
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "298": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%1#1"
+      ]
+    },
+    "299": {
+      "error": "assert target is match for conditions",
+      "op": "assert // assert target is match for conditions",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "300": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "\"a\""
+      ]
+    },
+    "301": {
+      "op": "swap",
+      "stack_out": [
+        "\"a\"",
+        "agent#0"
+      ]
+    },
+    "302": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "303": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "304": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "305": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "307": {
+      "error": "Agent not registered",
+      "op": "assert // Agent not registered",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "308": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "0"
+      ]
+    },
+    "309": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "310": {
+      "op": "pushint 24 // 24"
+    },
+    "312": {
+      "op": "swap",
+      "defined_out": [
+        "24",
+        "aggregate%val_as_bytes%0#0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "24",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "313": {
+      "op": "box_replace",
+      "stack_out": []
+    },
+    "314": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "315": {
+      "op": "return",
+      "stack_out": []
+    },
+    "316": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.submitFeedback[routing]",
+      "params": {},
+      "block": "submitFeedback",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "319": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "320": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "321": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "322": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "323": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "324": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "agent#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0"
+      ]
+    },
+    "327": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ]
+    },
+    "328": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%1#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0",
+        "len%1#0"
+      ]
+    },
+    "329": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "agent#0",
+        "len%1#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0",
+        "len%1#0",
+        "8"
+      ]
+    },
+    "330": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%1#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0",
+        "eq%1#0"
+      ]
+    },
+    "331": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "agent#0",
+        "tmp%2#0"
+      ]
+    },
+    "332": {
+      "op": "btoi",
+      "defined_out": [
+        "agent#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0"
+      ]
+    },
+    "333": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "agent#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "0"
+      ]
+    },
+    "334": {
+      "op": "bytec_3 // \"paused\"",
+      "defined_out": [
+        "\"paused\"",
+        "0",
+        "agent#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "0",
+        "\"paused\""
+      ]
+    },
+    "335": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "agent#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "336": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "337": {
+      "op": "!",
+      "defined_out": [
+        "agent#0",
+        "score#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "tmp%0#1"
+      ]
+    },
+    "338": {
+      "error": "Contract is paused",
+      "op": "assert // Contract is paused",
+      "stack_out": [
+        "agent#0",
+        "score#0"
+      ]
+    },
+    "339": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "\"a\""
+      ]
+    },
+    "340": {
+      "op": "dig 2",
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "\"a\"",
+        "agent#0 (copy)"
+      ]
+    },
+    "342": {
+      "op": "concat",
+      "defined_out": [
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "343": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "344": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%1#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "345": {
+      "op": "bury 1",
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "347": {
+      "error": "Agent not registered",
+      "op": "assert // Agent not registered",
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "348": {
+      "op": "dig 1",
+      "defined_out": [
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "score#0",
+        "score#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "score#0 (copy)"
+      ]
+    },
+    "350": {
+      "op": "pushint 100 // 100",
+      "defined_out": [
+        "100",
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "score#0",
+        "score#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "score#0 (copy)",
+        "100"
+      ]
+    },
+    "352": {
+      "op": "<=",
+      "defined_out": [
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "score#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "tmp%1#1"
+      ]
+    },
+    "353": {
+      "error": "Score must be 0-100",
+      "op": "assert // Score must be 0-100",
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "354": {
+      "op": "txn Sender",
+      "defined_out": [
+        "agent#0",
+        "box_prefixed_key%0#0",
+        "score#0",
+        "tmp%3#1"
+      ],
+      "stack_out": [
+        "agent#0",
+        "score#0",
+        "box_prefixed_key%0#0",
+        "tmp%3#1"
+      ]
+    },
+    "356": {
+      "op": "uncover 3",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "tmp%3#1",
+        "agent#0"
+      ]
+    },
+    "358": {
+      "op": "!=",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "score#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "tmp%4#0"
+      ]
+    },
+    "359": {
+      "error": "Cannot review yourself",
+      "op": "assert // Cannot review yourself",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "360": {
+      "op": "dup",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "361": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%1#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "score#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "362": {
+      "op": "pop",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0"
+      ]
+    },
+    "363": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)",
+        "score#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)"
+      ]
+    },
+    "364": {
+      "op": "pushint 24 // 24",
+      "defined_out": [
+        "24",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)",
+        "score#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)",
+        "24"
+      ]
+    },
+    "366": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "score#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "values%0#0"
+      ]
+    },
+    "367": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "score#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "values%0#0",
+        "1"
+      ]
+    },
+    "368": {
+      "op": "==",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "score#0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "tmp%5#0"
+      ]
+    },
+    "369": {
+      "error": "Agent is inactive",
+      "op": "assert // Agent is inactive",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0"
+      ]
+    },
+    "370": {
+      "op": "dup",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)"
+      ]
+    },
+    "371": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "profile#0 (copy)",
+        "0"
+      ]
+    },
+    "372": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "score#0",
+        "values%1#0"
+      ],
+      "stack_out": [
+        "score#0",
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "values%1#0"
+      ]
+    },
+    "373": {
+      "op": "uncover 3",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "values%1#0",
+        "score#0"
+      ]
+    },
+    "375": {
+      "op": "+",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "tmp%6#0"
+      ]
+    },
+    "376": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0",
+        "box_prefixed_key%0#0",
+        "profile#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "profile#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "377": {
+      "op": "replace2 0",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "updated#1"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1"
+      ]
+    },
+    "379": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "updated#1 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "updated#1 (copy)"
+      ]
+    },
+    "380": {
+      "op": "intc_3 // 8",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "updated#1 (copy)",
+        "8"
+      ]
+    },
+    "381": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "values%2#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "values%2#0"
+      ]
+    },
+    "382": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "values%2#0",
+        "1"
+      ]
+    },
+    "383": {
+      "op": "+",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "tmp%7#0",
+        "updated#1"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "tmp%7#0"
+      ]
+    },
+    "384": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%1#0",
+        "box_prefixed_key%0#0",
+        "updated#1"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1",
+        "aggregate%val_as_bytes%1#0"
+      ]
+    },
+    "385": {
+      "op": "replace2 8",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "updated#1"
+      ]
+    },
+    "387": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "388": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "389": {
+      "op": "bytec 5 // \"totalFeedbacks\"",
+      "defined_out": [
+        "\"totalFeedbacks\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"totalFeedbacks\""
+      ]
+    },
+    "391": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%1#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "392": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%1#0"
+      ]
+    },
+    "393": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "maybe_value%1#0",
+        "1"
+      ]
+    },
+    "394": {
+      "op": "+",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "395": {
+      "op": "bytec 5 // \"totalFeedbacks\"",
+      "stack_out": [
+        "tmp%8#0",
+        "\"totalFeedbacks\""
+      ]
+    },
+    "397": {
+      "op": "swap",
+      "stack_out": [
+        "\"totalFeedbacks\"",
+        "tmp%8#0"
+      ]
+    },
+    "398": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "399": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "400": {
+      "op": "return",
+      "stack_out": []
+    },
+    "401": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.getReputation[routing]",
+      "params": {},
+      "block": "getReputation",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "404": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "405": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "406": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "407": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "408": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "409": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "\"a\""
+      ]
+    },
+    "410": {
+      "op": "swap",
+      "stack_out": [
+        "\"a\"",
+        "agent#0"
+      ]
+    },
+    "411": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "412": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "413": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "414": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "416": {
+      "error": "Agent not registered",
+      "op": "assert // Agent not registered",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "417": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%1#0",
+        "profile#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "418": {
+      "op": "pop",
+      "stack_out": [
+        "profile#0"
+      ]
+    },
+    "419": {
+      "op": "dup",
+      "defined_out": [
+        "profile#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "profile#0"
+      ]
+    },
+    "420": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "profile#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "profile#0",
+        "8"
+      ]
+    },
+    "421": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "profile#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0"
+      ]
+    },
+    "422": {
+      "op": "dup",
+      "defined_out": [
+        "profile#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "values%0#0"
+      ]
+    },
+    "423": {
+      "op": "bnz getReputation_after_if_else@3",
+      "stack_out": [
+        "profile#0",
+        "values%0#0"
+      ]
+    },
+    "426": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "profile#0",
+        "tmp%2#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "tmp%2#0"
+      ]
+    },
+    "427": {
+      "block": "getReputation_after_inlined_contracts/AgentReputation.algo.ts::AgentReputation.getReputation@4",
+      "stack_in": [
+        "profile#0",
+        "values%0#0",
+        "tmp%2#0"
+      ],
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "428": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "429": {
+      "op": "swap",
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "430": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "tmp%4#0"
+      ]
+    },
+    "431": {
+      "op": "log",
+      "stack_out": [
+        "profile#0",
+        "values%0#0"
+      ]
+    },
+    "432": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "1"
+      ]
+    },
+    "433": {
+      "op": "return",
+      "stack_out": [
+        "profile#0",
+        "values%0#0"
+      ]
+    },
+    "434": {
+      "block": "getReputation_after_if_else@3",
+      "stack_in": [
+        "profile#0",
+        "values%0#0"
+      ],
+      "op": "dig 1",
+      "defined_out": [
+        "profile#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "profile#0"
+      ]
+    },
+    "436": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "profile#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "profile#0",
+        "0"
+      ]
+    },
+    "437": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "profile#0",
+        "values%1#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "values%1#0"
+      ]
+    },
+    "438": {
+      "op": "pushint 100 // 100",
+      "defined_out": [
+        "100",
+        "profile#0",
+        "values%1#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "values%1#0",
+        "100"
+      ]
+    },
+    "440": {
+      "op": "*",
+      "defined_out": [
+        "profile#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "tmp%1#1"
+      ]
+    },
+    "441": {
+      "op": "dig 1",
+      "defined_out": [
+        "profile#0",
+        "tmp%1#1",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "tmp%1#1",
+        "values%0#0"
+      ]
+    },
+    "443": {
+      "op": "/",
+      "defined_out": [
+        "profile#0",
+        "tmp%2#0",
+        "values%0#0"
+      ],
+      "stack_out": [
+        "profile#0",
+        "values%0#0",
+        "tmp%2#0"
+      ]
+    },
+    "444": {
+      "op": "b getReputation_after_inlined_contracts/AgentReputation.algo.ts::AgentReputation.getReputation@4"
+    },
+    "447": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.getAgentProfile[routing]",
+      "params": {},
+      "block": "getAgentProfile",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "450": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "451": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "452": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "453": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "454": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "455": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "\"a\""
+      ]
+    },
+    "456": {
+      "op": "swap",
+      "stack_out": [
+        "\"a\"",
+        "agent#0"
+      ]
+    },
+    "457": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "458": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "459": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "460": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "462": {
+      "error": "Agent not registered",
+      "op": "assert // Agent not registered",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "463": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ],
+      "stack_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "464": {
+      "op": "pop",
+      "stack_out": [
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "465": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%box_get%0#0"
+      ],
+      "stack_out": [
+        "aggregate%box_get%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "466": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "467": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "468": {
+      "op": "log",
+      "stack_out": []
+    },
+    "469": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "470": {
+      "op": "return",
+      "stack_out": []
+    },
+    "471": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.getFeedbackCount[routing]",
+      "params": {},
+      "block": "getFeedbackCount",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "474": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "475": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "476": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "477": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "478": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "479": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "\"a\""
+      ]
+    },
+    "480": {
+      "op": "swap",
+      "stack_out": [
+        "\"a\"",
+        "agent#0"
+      ]
+    },
+    "481": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "482": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0 (copy)"
+      ]
+    },
+    "483": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "484": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "486": {
+      "error": "Agent not registered",
+      "op": "assert // Agent not registered",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "487": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ],
+      "stack_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "488": {
+      "op": "pop",
+      "stack_out": [
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "489": {
+      "op": "extract 8 8",
+      "defined_out": [
+        "aggregate%extract%0#0"
+      ],
+      "stack_out": [
+        "aggregate%extract%0#0"
+      ]
+    },
+    "492": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%extract%0#0"
+      ],
+      "stack_out": [
+        "aggregate%extract%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "493": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%extract%0#0"
+      ]
+    },
+    "494": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "495": {
+      "op": "log",
+      "stack_out": []
+    },
+    "496": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "497": {
+      "op": "return",
+      "stack_out": []
+    },
+    "498": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.isRegistered[routing]",
+      "params": {},
+      "block": "isRegistered",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "501": {
+      "op": "dup",
+      "defined_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ],
+      "stack_out": [
+        "agent#0",
+        "agent#0 (copy)"
+      ]
+    },
+    "502": {
+      "op": "len",
+      "defined_out": [
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0"
+      ]
+    },
+    "503": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "agent#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "504": {
+      "op": "==",
+      "defined_out": [
+        "agent#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "eq%0#0"
+      ]
+    },
+    "505": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "agent#0"
+      ]
+    },
+    "506": {
+      "op": "bytec_0 // \"a\"",
+      "defined_out": [
+        "\"a\"",
+        "agent#0"
+      ],
+      "stack_out": [
+        "agent#0",
+        "\"a\""
+      ]
+    },
+    "507": {
+      "op": "swap",
+      "stack_out": [
+        "\"a\"",
+        "agent#0"
+      ]
+    },
+    "508": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "509": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "510": {
+      "op": "bury 1",
+      "stack_out": [
+        "maybe_exists%0#0"
+      ]
+    },
+    "512": {
+      "op": "bz isRegistered_after_if_else@3",
+      "stack_out": []
+    },
+    "515": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "516": {
+      "block": "isRegistered_after_inlined_contracts/AgentReputation.algo.ts::AgentReputation.isRegistered@4",
+      "stack_in": [
+        "tmp%2#0"
+      ],
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "517": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "518": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "519": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "520": {
+      "op": "log",
+      "stack_out": []
+    },
+    "521": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "522": {
+      "op": "return",
+      "stack_out": []
+    },
+    "523": {
+      "block": "isRegistered_after_if_else@3",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "524": {
+      "op": "b isRegistered_after_inlined_contracts/AgentReputation.algo.ts::AgentReputation.isRegistered@4"
+    },
+    "527": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.getAgentCount[routing]",
+      "params": {},
+      "block": "getAgentCount",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "528": {
+      "op": "bytec 4 // \"agentCount\"",
+      "defined_out": [
+        "\"agentCount\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"agentCount\""
+      ]
+    },
+    "530": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "531": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "532": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "533": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "534": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "535": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "536": {
+      "op": "log",
+      "stack_out": []
+    },
+    "537": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "538": {
+      "op": "return",
+      "stack_out": []
+    },
+    "539": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.getTotalFeedbacks[routing]",
+      "params": {},
+      "block": "getTotalFeedbacks",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "540": {
+      "op": "bytec 5 // \"totalFeedbacks\"",
+      "defined_out": [
+        "\"totalFeedbacks\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"totalFeedbacks\""
+      ]
+    },
+    "542": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "543": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "544": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "545": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "546": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "547": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "548": {
+      "op": "log",
+      "stack_out": []
+    },
+    "549": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "550": {
+      "op": "return",
+      "stack_out": []
+    },
+    "551": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.pause[routing]",
+      "params": {},
+      "block": "pause",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "553": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "554": {
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "555": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "556": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "557": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "558": {
+      "error": "assert target is match for conditions",
+      "op": "assert // assert target is match for conditions",
+      "stack_out": []
+    },
+    "559": {
+      "op": "bytec_3 // \"paused\"",
+      "defined_out": [
+        "\"paused\""
+      ],
+      "stack_out": [
+        "\"paused\""
+      ]
+    },
+    "560": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"paused\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"paused\"",
+        "1"
+      ]
+    },
+    "561": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "562": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "563": {
+      "op": "return",
+      "stack_out": []
+    },
+    "564": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.unpause[routing]",
+      "params": {},
+      "block": "unpause",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "566": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "567": {
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "568": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "569": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "570": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "571": {
+      "error": "assert target is match for conditions",
+      "op": "assert // assert target is match for conditions",
+      "stack_out": []
+    },
+    "572": {
+      "op": "bytec_3 // \"paused\"",
+      "defined_out": [
+        "\"paused\""
+      ],
+      "stack_out": [
+        "\"paused\""
+      ]
+    },
+    "573": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"paused\"",
+        "0"
+      ]
+    },
+    "574": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "575": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "576": {
+      "op": "return",
+      "stack_out": []
+    },
+    "577": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.transferAdmin[routing]",
+      "params": {},
+      "block": "transferAdmin",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "newAdmin#0"
+      ],
+      "stack_out": [
+        "newAdmin#0"
+      ]
+    },
+    "580": {
+      "op": "dup",
+      "defined_out": [
+        "newAdmin#0",
+        "newAdmin#0 (copy)"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "newAdmin#0 (copy)"
+      ]
+    },
+    "581": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "newAdmin#0"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "len%0#0"
+      ]
+    },
+    "582": {
+      "op": "intc_2 // 32",
+      "defined_out": [
+        "32",
+        "len%0#0",
+        "newAdmin#0"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "583": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "newAdmin#0"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "eq%0#0"
+      ]
+    },
+    "584": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "newAdmin#0"
+      ]
+    },
+    "585": {
+      "op": "txn Sender",
+      "defined_out": [
+        "newAdmin#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%0#1"
+      ]
+    },
+    "587": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "newAdmin#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "588": {
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "newAdmin#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%0#1",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "589": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "newAdmin#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%0#1",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "590": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%0#1",
+        "maybe_value%0#0"
+      ]
+    },
+    "591": {
+      "op": "==",
+      "defined_out": [
+        "newAdmin#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "newAdmin#0",
+        "tmp%1#1"
+      ]
+    },
+    "592": {
+      "error": "assert target is match for conditions",
+      "op": "assert // assert target is match for conditions",
+      "stack_out": [
+        "newAdmin#0"
+      ]
+    },
+    "593": {
+      "op": "bytec_1 // \"admin\"",
+      "stack_out": [
+        "newAdmin#0",
+        "\"admin\""
+      ]
+    },
+    "594": {
+      "op": "swap",
+      "stack_out": [
+        "\"admin\"",
+        "newAdmin#0"
+      ]
+    },
+    "595": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "596": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "597": {
+      "op": "return",
+      "stack_out": []
+    },
+    "598": {
+      "subroutine": "contracts/AgentReputation.algo.ts::AgentReputation.deleteApplication[routing]",
+      "params": {},
+      "block": "deleteApplication",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "600": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "601": {
+      "op": "bytec_1 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"admin\""
+      ]
+    },
+    "602": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "603": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%0#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "604": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "605": {
+      "error": "assert target is match for conditions",
+      "op": "assert // assert target is match for conditions",
+      "stack_out": []
+    },
+    "606": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "607": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}
