@@ -75,9 +75,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({
-      unsignedTxn:  unsignedB64,
-      txnId:        txId,
-      zkSecret:     secret,
+      unsignedTxn: unsignedB64,
+      txnId: txId,
+      zkSecret: secret,
       zkCommitment: commitment,
       keyHash,
       listing:      { ...noteData, hasCredentials: true },

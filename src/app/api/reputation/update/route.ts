@@ -30,7 +30,7 @@ type Magnitude = "minor" | "standard" | "major";
 
 const SCORE_MAP: Record<Action, Record<Magnitude, number>> = {
   increment: { minor: 75, standard: 85, major: 95 },
-  decrement: { minor: 35, standard: 20, major: 5  },
+  decrement: { minor: 35, standard: 20, major: 5 },
 };
 
 export async function POST(req: NextRequest) {
@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { senderAddress, agentAddress, action, magnitude = "standard", reason = "" } = body as {
       senderAddress: string;
-      agentAddress:  string;
-      action:        Action;
+      agentAddress: string;
+      action: Action;
       magnitude?:    Magnitude;
       reason?:       string;
     };

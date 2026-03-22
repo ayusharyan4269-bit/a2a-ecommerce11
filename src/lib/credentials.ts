@@ -76,7 +76,7 @@ export function storeCredentials(params: {
   const plaintext = JSON.stringify(params.credentials);
   const { encryptedData, iv } = encrypt(plaintext, key);
   const keyHash = createHash("sha256").update(key).digest("hex");
-  const keyB64  = key.toString("base64");
+  const keyB64 = key.toString("base64");
 
   const entry: CredentialEntry = {
     txId:          params.txId,

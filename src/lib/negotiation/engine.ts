@@ -109,7 +109,7 @@ async function negotiateWithListing(
     const sellerRes = await sellerRespond(listing, buyerOffer, round, "buyer-agent");
     messages.push(sellerRes.message);
     lastSellerPrice = sellerRes.counterPrice;
-    reputationScore  = sellerRes.reputationScore;
+    reputationScore = sellerRes.reputationScore;
 
     // Log reputation-aware seller response
     actions.push(
@@ -173,11 +173,11 @@ async function negotiateWithListing(
   }
 
   const session: Omit<NegotiationSession, "dealScore"> = {
-    listingTxId:    listing.txId,
-    sellerAddress:  listing.sender,
-    sellerName:     listing.seller.length >= 58 && /^[A-Z2-7]+$/.test(listing.seller) ? listing.service : listing.seller,
-    service:        listing.service,
-    originalPrice:  listing.price,
+    listingTxId:   listing.txId,
+    sellerAddress: listing.sender,
+    sellerName:    listing.seller.length >= 58 && /^[A-Z2-7]+$/.test(listing.seller) ? listing.service : listing.seller,
+    service:       listing.service,
+    originalPrice: listing.price,
     finalPrice,
     accepted,
     messages,

@@ -17,7 +17,7 @@ import { buildPaymentRequirements, verifyOnChainPayment } from "@/lib/x402";
 import { getCredentialEntry, decryptCredentials } from "@/lib/credentials";
 
 function resourceUrl(req: NextRequest, txId: string): string {
-  const host  = req.headers.get("host") ?? "localhost:3000";
+  const host = req.headers.get("host") ?? "localhost:3000";
   const proto = host.startsWith("localhost") ? "http" : "https";
   return `${proto}://${host}/api/products/${txId}`;
 }
@@ -37,9 +37,9 @@ export async function GET(
   }
 
   const resource = resourceUrl(req, txId);
-  const payReqs  = buildPaymentRequirements({
+  const payReqs = buildPaymentRequirements({
     resource,
-    description:   `Purchase credentials for: ${entry.service}`,
+    description: `Purchase credentials for: ${entry.service}`,
     sellerAddress: entry.sellerAddress,
     priceAlgo:     entry.price,
   });
@@ -70,9 +70,9 @@ export async function GET(
   const verifyPrice = amountParam ? Math.min(Number(amountParam), entry.price) : entry.price;
 
   const verification = await verifyOnChainPayment({
-    paymentTxId:   proofTxId,
+    paymentTxId: proofTxId,
     sellerAddress: entry.sellerAddress,
-    requiredAlgo:  verifyPrice,
+    requiredAlgo: verifyPrice,
   });
 
   if (!verification.isValid) {

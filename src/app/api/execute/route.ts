@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "AVM_PRIVATE_KEY not configured" }, { status: 500 });
     }
 
-    const rawKey  = Buffer.from(process.env.AVM_PRIVATE_KEY, "base64");
-    const acct    = algosdk.mnemonicToSecretKey(algosdk.secretKeyToMnemonic(rawKey));
+    const rawKey = Buffer.from(process.env.AVM_PRIVATE_KEY, "base64");
+    const acct = algosdk.mnemonicToSecretKey(algosdk.secretKeyToMnemonic(rawKey));
     const buyerAddr = acct.addr.toString();
     const buyerSk   = acct.sk;
 
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     // ── Step 1: Execute ALGO payment (signless — buyer key is server-side) ───
     const escrow = await executePayment(deal.sellerAddress, payableAmount);
 
-    const buyerBal  = await getBalance(escrow.buyerAddress);
+    const buyerBal = await getBalance(escrow.buyerAddress);
     const sellerBal = await getBalance(escrow.sellerAddress);
 
     actions.push(
@@ -80,11 +80,11 @@ export async function POST(req: NextRequest) {
 
     if (deal.listingTxId) {
       try {
-        const host       = req.headers.get("host") ?? "localhost:3000";
-        const proto      = host.startsWith("localhost") ? "http" : "https";
+        const host = req.headers.get("host") ?? "localhost:3000";
+        const proto = host.startsWith("localhost") ? "http" : "https";
         const productUrl = `${proto}://${host}/api/products/${deal.listingTxId}?proof=${escrow.txId}&amount=${payableAmount}`;
 
-        const credRes  = await fetch(productUrl);
+        const credRes = await fetch(productUrl);
         const credData = await credRes.json() as Record<string, unknown>;
 
         if (credRes.ok && credData.credentials) {
