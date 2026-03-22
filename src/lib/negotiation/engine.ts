@@ -5,9 +5,9 @@ import type {
   X402Message,
   AgentAction,
 } from "@/lib/agents/types";
-import { createOffer, createCounterOffer } from "@/lib/agents/buyer-agent";
+import { createOffer, createCounterOffer, computeDealScore } from "@/lib/agents/buyer-agent";
 import { sellerRespond } from "@/lib/agents/seller-agent";
-import { verifyZKCommitment } from "@/lib/blockchain/zk";
+import { verifyZKCommitment, verifyZKOnChain } from "@/lib/blockchain/zk";
 import { getSellerSecret } from "@/lib/blockchain/listings";
 import { createAction } from "@/lib/a2a/messaging";
 
@@ -22,9 +22,11 @@ async function negotiateWithListing(
   let accepted = false;
   let finalPrice = listing.price;
   let lastSellerPrice = listing.price;
+  let reputationScore = 0;
 
   let zkVerified = false;
   if (listing.zkCommitment) {
+    // Try local secret first (seed listings only)
     const secret = getSellerSecret(listing.seller);
     if (secret) {
       zkVerified = verifyZKCommitment(
@@ -35,6 +37,18 @@ async function negotiateWithListing(
         listing.description
       );
     }
+
+    // Fall back to on-chain verification via ZKCommitment contract
+    if (!zkVerified) {
+      try {
+        const onChainStatus = await verifyZKOnChain(listing.zkCommitment);
+        // 1 = committed (hash exists on-chain), 2 = revealed & verified
+        zkVerified = onChainStatus >= 1;
+      } catch {
+        // on-chain check failed — leave as unverified
+      }
+    }
+
     actions.push(
       createAction(
         "buyer",
@@ -51,7 +65,7 @@ async function negotiateWithListing(
       "buyer",
       "Buyer Agent",
       "thinking",
-      `Evaluating listing from **${listing.seller}** — "${listing.service}" at **${listing.price} ALGO** (on-chain TX: \`${listing.txId.slice(0, 16)}...\`)`
+      `Evaluating listing from **${listing.seller}** — "${listing.service}" at **${listing.price} ALGO** (TX: \`${listing.txId.slice(0, 16)}...\`). Querying on-chain reputation...`
     )
   );
 
@@ -95,20 +109,37 @@ async function negotiateWithListing(
     const sellerRes = await sellerRespond(listing, buyerOffer, round, "buyer-agent");
     messages.push(sellerRes.message);
     lastSellerPrice = sellerRes.counterPrice;
+    reputationScore  = sellerRes.reputationScore;
 
+    // Log reputation-aware seller response
     actions.push(
       createAction("seller", listing.seller, "negotiation", sellerRes.message.payload.message, {
         price: sellerRes.counterPrice,
         round,
         action: sellerRes.message.action,
+        reputationScore,
       })
     );
+
+    if (round === 1) {
+      actions.push(
+        createAction(
+          "system",
+          "AgentReputation",
+          "verification",
+          `**${listing.seller}** reputation: **${reputationScore}/100** ` +
+          `(${reputationScore >= 85 ? "High — negotiating firmly" : reputationScore >= 70 ? "Good — standard strategy" : reputationScore >= 50 ? "Average — more concessions" : "Low — aggressive discounting"})`,
+          { reputationScore, seller: listing.seller }
+        )
+      );
+    }
 
     if (sellerRes.accepted) {
       accepted = true;
       finalPrice = sellerRes.counterPrice;
       actions.push(
-        createAction("system", "System", "result", `Deal with **${listing.seller}** at **${finalPrice} ALGO**`)
+        createAction("system", "System", "result",
+          `Deal with **${listing.seller}** at **${finalPrice} ALGO** (reputation: ${reputationScore}/100)`)
       );
       break;
     }
@@ -141,19 +172,22 @@ async function negotiateWithListing(
     }
   }
 
+  const session: Omit<NegotiationSession, "dealScore"> = {
+    listingTxId:    listing.txId,
+    sellerAddress:  listing.sender,
+    sellerName:     listing.seller.length >= 58 && /^[A-Z2-7]+$/.test(listing.seller) ? listing.service : listing.seller,
+    service:        listing.service,
+    originalPrice:  listing.price,
+    finalPrice,
+    accepted,
+    messages,
+    zkVerified,
+    rounds:         messages.length,
+    reputationScore,
+  };
+
   return {
-    session: {
-      listingTxId: listing.txId,
-      sellerAddress: listing.sender,
-      sellerName: listing.seller,
-      service: listing.service,
-      originalPrice: listing.price,
-      finalPrice,
-      accepted,
-      messages,
-      zkVerified,
-      rounds: messages.length,
-    },
+    session: { ...session, dealScore: computeDealScore(session) },
     actions,
   };
 }
@@ -170,7 +204,7 @@ export async function runNegotiations(
       "buyer",
       "Buyer Agent",
       "thinking",
-      `Starting x402-style negotiations with **${listings.length}** on-chain listing(s) for "${intent.serviceType}" (budget: ${intent.maxBudget} ALGO)`
+      `Starting x402-style negotiations with **${listings.length}** on-chain listing(s) for "${intent.serviceType}" (budget: ${intent.maxBudget} ALGO). Each seller's strategy is adjusted by their on-chain reputation.`
     )
   );
 
@@ -180,13 +214,20 @@ export async function runNegotiations(
     allActions.push(...actions);
   }
 
-  const acceptedCount = allSessions.filter((s) => s.accepted).length;
+  const acceptedSessions = allSessions.filter((s) => s.accepted);
   allActions.push(
     createAction(
       "buyer",
       "Buyer Agent",
       "thinking",
-      `Negotiations complete: **${acceptedCount}/${listings.length}** deals reached. Selecting best offer...`
+      `Negotiations complete: **${acceptedSessions.length}/${listings.length}** deals reached.\n` +
+      (acceptedSessions.length > 0
+        ? `Ranking by deal score (60% discount + 40% reputation):\n` +
+          [...acceptedSessions]
+            .sort((a, b) => b.dealScore - a.dealScore)
+            .map((s, i) => `${i + 1}. **${s.sellerName}** — ${s.finalPrice} ALGO  rep=${s.reputationScore}/100  score=${s.dealScore.toFixed(3)}`)
+            .join("\n")
+        : "No deals within budget.")
     )
   );
 
