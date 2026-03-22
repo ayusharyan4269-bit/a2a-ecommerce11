@@ -15,6 +15,7 @@ export interface ParsedIntent {
   serviceType: string;
   maxBudget: number;
   preferences: string[];
+  searchTerms: string[];
   rawMessage: string;
 }
 
@@ -45,6 +46,10 @@ export interface NegotiationSession {
   messages: X402Message[];
   zkVerified: boolean;
   rounds: number;
+  /** On-chain reputation score (0-100) at time of negotiation */
+  reputationScore: number;
+  /** Composite score used for deal ranking: blend of discount % and reputation */
+  dealScore: number;
 }
 
 export interface EscrowState {

@@ -13,7 +13,11 @@ export function discoverFromListings(
   listings: OnChainListing[],
   intent: ParsedIntent
 ): OnChainListing[] {
-  return filterListings(listings, intent.serviceType, intent.maxBudget);
+  return filterListings(listings, intent.serviceType, intent.maxBudget, intent.searchTerms);
+}
+
+function round4(n: number): number {
+  return Math.max(parseFloat(n.toFixed(4)), 0.0001);
 }
 
 export function createOffer(
@@ -21,9 +25,8 @@ export function createOffer(
   intent: ParsedIntent
 ): { message: X402Message; offerPrice: number } {
   const targetRatio = 0.65;
-  const offerPrice = Math.max(
-    Math.round(listing.price * (1 - 0.35)),
-    Math.round(Math.min(listing.price * targetRatio, intent.maxBudget * 0.7))
+  const offerPrice = round4(
+    Math.min(listing.price * targetRatio, intent.maxBudget * 0.7)
   );
 
   const message = createX402Message(
@@ -46,12 +49,12 @@ export function createCounterOffer(
   intent: ParsedIntent,
   round: number
 ): { message: X402Message; offerPrice: number; accepting: boolean } {
-  const gap = lastSellerPrice - Math.round(listing.price * 0.7);
-  const newOffer = Math.round(lastSellerPrice - gap * 0.3 * (1 / round));
-  const clampedOffer = Math.max(newOffer, Math.round(listing.price * 0.72));
-  const finalOffer = Math.min(clampedOffer, intent.maxBudget);
+  const gap = lastSellerPrice - listing.price * 0.7;
+  const newOffer = lastSellerPrice - gap * 0.3 * (1 / round);
+  const clampedOffer = Math.max(newOffer, listing.price * 0.72);
+  const finalOffer = round4(Math.min(clampedOffer, intent.maxBudget));
 
-  const accepting = Math.abs(finalOffer - lastSellerPrice) <= lastSellerPrice * 0.05;
+  const accepting = lastSellerPrice > 0 && Math.abs(finalOffer - lastSellerPrice) <= lastSellerPrice * 0.05;
   const action: X402Message["action"] = accepting ? "accept" : "counter";
 
   const message = createX402Message(
@@ -70,9 +73,28 @@ export function createCounterOffer(
   return { message, offerPrice: accepting ? lastSellerPrice : finalOffer, accepting };
 }
 
+/**
+ * Composite deal score — higher is better.
+ *
+ * Formula:  60% weight on discount achieved  +  40% weight on seller reputation
+ *
+ * This means a seller with reputation 90 at 5% discount beats a seller with
+ * reputation 40 at the same 5% discount. But a massive discount from a
+ * low-reputation seller can still win if the price gap is large enough.
+ */
+export function computeDealScore(session: Omit<NegotiationSession, "dealScore">): number {
+  const discountPct =
+    session.originalPrice > 0
+      ? (session.originalPrice - session.finalPrice) / session.originalPrice
+      : 0;
+  const reputationNorm = session.reputationScore / 100;
+  return parseFloat((discountPct * 0.6 + reputationNorm * 0.4).toFixed(4));
+}
+
 export function selectBestDeal(sessions: NegotiationSession[]): NegotiationSession | null {
-  const accepted = sessions.filter((s) => s.accepted);
+  const accepted = sessions.filter((s) => s.accepted && s.finalPrice > 0);
   if (accepted.length === 0) return null;
-  accepted.sort((a, b) => a.finalPrice - b.finalPrice);
+  // Sort by composite deal score descending
+  accepted.sort((a, b) => b.dealScore - a.dealScore);
   return accepted[0];
 }

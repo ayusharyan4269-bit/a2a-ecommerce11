@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchListingsFromChain, filterListings } from "@/lib/blockchain/listings";
+import { fetchPublicListings, filterListings } from "@/lib/blockchain/listings";
 import { createAction } from "@/lib/a2a/messaging";
 import type { ParsedIntent } from "@/lib/agents/types";
 
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       ),
     ];
 
-    const allListings = await fetchListingsFromChain();
+    const allListings = await fetchPublicListings();
     actions.push(
       createAction(
         "system",
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
       )
     );
 
-    const filtered = filterListings(allListings, intent.serviceType, intent.maxBudget);
+    const filtered = filterListings(allListings, intent.serviceType, intent.maxBudget, intent.searchTerms);
 
     if (filtered.length === 0) {
       actions.push(

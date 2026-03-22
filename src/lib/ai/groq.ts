@@ -11,21 +11,35 @@ export async function parseUserIntent(message: string): Promise<ParsedIntent> {
     messages: [
       {
         role: "system",
-        content: `You are an AI agent that parses user purchase intents for a marketplace.
+        content: `You are an AI agent that parses user purchase intents for a digital marketplace.
 Extract structured data from the user's message. Respond ONLY with valid JSON, no markdown.
 
 Output format:
 {
-  "serviceType": "cloud-storage" | "api-access" | "compute" | "hosting" | string,
+  "serviceType": string,
   "maxBudget": number (in ALGO, default 100 if not specified),
-  "preferences": string[] (extracted preferences like "cheap", "reliable", "fast", "encrypted")
+  "preferences": string[] (extracted preferences like "cheap", "reliable", "fast", "encrypted"),
+  "searchTerms": string[] (key product/brand/service words from the query for search matching)
 }
 
-Map common terms:
-- "cloud", "storage", "backup" -> "cloud-storage"
-- "API", "gateway", "endpoint" -> "api-access"
-- "compute", "GPU", "server", "VM" -> "compute"
-- "hosting", "website", "deploy" -> "hosting"`,
+IMPORTANT RULES for serviceType:
+1. Use these ONLY when the user clearly means one of these infrastructure services:
+   - "cloud", "storage", "backup" -> "cloud-storage"
+   - "API", "gateway", "endpoint" -> "api-access"
+   - "compute", "GPU", "server", "VM" -> "compute"
+   - "hosting", "website", "deploy" -> "hosting"
+2. For ALL other products (accounts, subscriptions, digital goods, software, etc.),
+   use the ACTUAL product/brand name in kebab-case as the serviceType.
+   Do NOT force-map them to the categories above.
+
+Examples:
+- "Buy Netflix account" -> serviceType: "netflix-account", searchTerms: ["netflix", "account"]
+- "Get me a Spotify premium" -> serviceType: "spotify-premium", searchTerms: ["spotify", "premium"]
+- "I need cloud storage under 1 ALGO" -> serviceType: "cloud-storage", searchTerms: ["cloud", "storage"]
+- "Buy a VPN subscription" -> serviceType: "vpn-subscription", searchTerms: ["vpn", "subscription"]
+- "Need cheap hosting" -> serviceType: "hosting", searchTerms: ["hosting"]
+
+searchTerms should contain the key nouns/brands from the query (lowercase), excluding filler words like "buy", "get", "me", "a", "the", "under", "for".`,
       },
       { role: "user", content: message },
     ],
@@ -40,13 +54,19 @@ Map common terms:
       serviceType: parsed.serviceType ?? "cloud-storage",
       maxBudget: parsed.maxBudget ?? 100,
       preferences: parsed.preferences ?? [],
+      searchTerms: parsed.searchTerms ?? [],
       rawMessage: message,
     };
   } catch {
+    // Fallback: extract basic search terms from the raw message
+    const stopWords = new Set(["buy", "get", "me", "a", "the", "under", "for", "i", "need", "want", "algo"]);
+    const fallbackTerms = message.toLowerCase().split(/\s+/)
+      .filter(w => w.length > 1 && !stopWords.has(w) && !/^\d/.test(w));
     return {
       serviceType: "cloud-storage",
       maxBudget: 100,
       preferences: [],
+      searchTerms: fallbackTerms,
       rawMessage: message,
     };
   }
