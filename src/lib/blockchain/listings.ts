@@ -1,13 +1,22 @@
 import algosdk from "algosdk";
-import { getClient, getStoredAccounts, getSellerKeys, getIndexer } from "./algorand";
+import {
+  getClient,
+  getStoredAccounts,
+  getSellerKeys,
+  getIndexer,
+} from "./algorand";
 import { createZKCommitment } from "./zk";
 import type { OnChainListing } from "@/lib/agents/types";
 
 const INDEXER_TIMEOUT_MS = 22000;
 
-async function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
+async function withTimeout<T, F>(
+  promise: Promise<T>,
+  ms: number,
+  fallback: F,
+): Promise<T | F> {
   let timer: ReturnType<typeof setTimeout>;
-  const timeout = new Promise<T>((resolve) => {
+  const timeout = new Promise<F>((resolve) => {
     timer = setTimeout(() => resolve(fallback), ms);
   });
   return Promise.race([promise.finally(() => clearTimeout(timer)), timeout]);
@@ -31,35 +40,40 @@ const SEED_LISTINGS: Omit<ListingData, "timestamp" | "zkCommitment">[] = [
     service: "CloudMax India Enterprise Storage",
     price: 90,
     seller: "cloudmax",
-    description: "Enterprise-grade cloud storage with Mumbai & Chennai data centers. 99.99% uptime, end-to-end encryption, SOC2 compliant.",
+    description:
+      "Enterprise-grade cloud storage with Mumbai & Chennai data centers. 99.99% uptime, end-to-end encryption, SOC2 compliant.",
   },
   {
     type: "cloud-storage",
     service: "DataVault SME Storage",
     price: 85,
     seller: "datavault",
-    description: "Affordable cloud storage for Indian SMEs. Auto-scaling, pay-as-you-go with Hyderabad servers.",
+    description:
+      "Affordable cloud storage for Indian SMEs. Auto-scaling, pay-as-you-go with Hyderabad servers.",
   },
   {
     type: "api-access",
     service: "QuickAPI Gateway Pro",
     price: 50,
     seller: "quickapi",
-    description: "High-performance API gateway with rate limiting, caching, analytics. Built for fintech & e-commerce.",
+    description:
+      "High-performance API gateway with rate limiting, caching, analytics. Built for fintech & e-commerce.",
   },
   {
     type: "compute",
     service: "BharatCompute GPU Instances",
     price: 120,
     seller: "bharatcompute",
-    description: "NVIDIA A100 GPU clusters in Pune for ML workloads. Per-minute billing, spot pricing available.",
+    description:
+      "NVIDIA A100 GPU clusters in Pune for ML workloads. Per-minute billing, spot pricing available.",
   },
   {
     type: "hosting",
     service: "SecureHost Pro Managed Hosting",
     price: 70,
     seller: "securehost",
-    description: "Managed hosting with DDoS protection, auto-SSL, and CDN. Ideal for Indian startups.",
+    description:
+      "Managed hosting with DDoS protection, auto-SSL, and CDN. Ideal for Indian startups.",
   },
 ];
 
@@ -83,7 +97,11 @@ export async function postListingsOnChain(): Promise<string[]> {
     const keyData = sellerKeyMap?.[listing.seller];
     if (!sellerAddr || !keyData) continue;
 
-    const zk = createZKCommitment(listing.seller, listing.price, listing.description);
+    const zk = createZKCommitment(
+      listing.seller,
+      listing.price,
+      listing.description,
+    );
     sellerSecrets.set(listing.seller, zk.secret);
 
     const noteData: ListingData = {
@@ -91,11 +109,13 @@ export async function postListingsOnChain(): Promise<string[]> {
       zkCommitment: zk.commitment,
       timestamp: Date.now(),
     };
-    const noteBytes = new TextEncoder().encode(LISTING_PREFIX + JSON.stringify(noteData));
+    const noteBytes = new TextEncoder().encode(
+      LISTING_PREFIX + JSON.stringify(noteData),
+    );
 
     const params = await algod.getTransactionParams().do();
     const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-      sender:   algosdk.Address.fromString(sellerAddr),
+      sender: algosdk.Address.fromString(sellerAddr),
       receiver: algosdk.Address.fromString(sellerAddr),
       amount: 0,
       note: noteBytes,
@@ -130,16 +150,18 @@ function parseTxnsToListings(txns: unknown[]): OnChainListing[] {
       }
       if (!noteStr.startsWith(LISTING_PREFIX)) continue;
 
-      const data: ListingData = JSON.parse(noteStr.slice(LISTING_PREFIX.length));
+      const data: ListingData = JSON.parse(
+        noteStr.slice(LISTING_PREFIX.length),
+      );
       listings.push({
-        txId:        String(txn.id ?? txn.txId ?? ""),
-        sender:      String(txn.sender ?? txn.from ?? ""),
-        type:        data.type,
-        service:     data.service,
-        price:       data.price,
-        seller:      data.seller,
+        txId: String(txn.id ?? txn.txId ?? ""),
+        sender: String(txn.sender ?? txn.from ?? ""),
+        type: data.type,
+        service: data.service,
+        price: data.price,
+        seller: data.seller,
         description: data.description,
-        timestamp:   data.timestamp,
+        timestamp: data.timestamp,
         zkCommitment: data.zkCommitment,
         round: Number(txn["confirmed-round"] ?? txn.confirmedRound ?? 0),
       });
@@ -222,7 +244,7 @@ export function filterListings(
   listings: OnChainListing[],
   serviceType: string,
   maxBudget: number,
-  searchTerms?: string[]
+  searchTerms?: string[],
 ): OnChainListing[] {
   const normalized = serviceType.toLowerCase().replace(/[\s_-]+/g, "-");
   const normalizedWords = normalized.replace(/-/g, " ");
@@ -239,16 +261,23 @@ export function filterListings(
       lDesc.includes(normalizedWords) ||
       lType.includes(normalized.split("-")[0]) ||
       // Also check each word of the normalized serviceType individually
-      normalized.split("-").every((word) =>
-        word.length > 2 && (lService.includes(word) || lDesc.includes(word) || lType.includes(word))
-      )
+      normalized
+        .split("-")
+        .every(
+          (word) =>
+            word.length > 2 &&
+            (lService.includes(word) ||
+              lDesc.includes(word) ||
+              lType.includes(word)),
+        )
     );
   });
 
   if (primaryMatches.length > 0) return primaryMatches;
 
   // Fallback: use searchTerms for broader matching (catches "netflix", "spotify", etc.)
-  const terms = searchTerms?.map((t) => t.toLowerCase()).filter((t) => t.length > 1) ?? [];
+  const terms =
+    searchTerms?.map((t) => t.toLowerCase()).filter((t) => t.length > 1) ?? [];
   if (terms.length === 0) return [];
 
   return listings.filter((l) => {
@@ -263,7 +292,7 @@ export function filterListings(
         lType.includes(term) ||
         lService.includes(term) ||
         lDesc.includes(term) ||
-        lSeller.includes(term)
+        lSeller.includes(term),
     );
   });
 }
