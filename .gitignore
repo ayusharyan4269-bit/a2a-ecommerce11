@@ -2,8 +2,11 @@ node_modules/
 .next/
 .env
 .env.local
+.vault-key
 *.log
 dist/
 .DS_Store
 Thumbs.db
 tsconfig.tsbuildinfo
+
+.vercel

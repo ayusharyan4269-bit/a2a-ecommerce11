@@ -13,9 +13,10 @@
 
 <br/>
 
-AI agents discover services on the Algorand blockchain, verify seller authenticity<br/>
-through on-chain SHA-256, negotiate prices with LLMs, and execute real ALGO payments.<br/>
-**Zero human intervention.**
+AI agents autonomously discover services on the Algorand blockchain, negotiate prices with LLMs,<br/>
+execute payments through the x402 protocol, verify sellers via on-chain ZK commitments,<br/>
+and deliver encrypted credentials to buyers — all without a single human click.<br/>
+**Zero intervention. Real credentials. On-chain everything.**
 
 <br/>
 
@@ -28,17 +29,12 @@ through on-chain SHA-256, negotiate prices with LLMs, and execute real ALGO paym
 <p>
   <img src="https://img.shields.io/badge/x402-Payment_Protocol-FF6B00?style=flat-square&labelColor=2d2d2d" />
   <img src="https://img.shields.io/badge/ZK-On--Chain_SHA--256-A855F7?style=flat-square&labelColor=2d2d2d" />
+  <img src="https://img.shields.io/badge/Vault-Agent_Auto--Sign-10B981?style=flat-square&labelColor=2d2d2d" />
   <img src="https://img.shields.io/badge/Wallets-Pera_·_Defly_·_Lute-3B82F6?style=flat-square&labelColor=2d2d2d" />
   <img src="https://img.shields.io/badge/AI-Groq_Llama_3.3-F97316?style=flat-square&labelColor=2d2d2d" />
   <img src="https://img.shields.io/badge/Discovery-Algorand_Indexer-0D9488?style=flat-square&labelColor=2d2d2d" />
   <img src="https://img.shields.io/badge/Contracts-PuyaTs_→_TEAL-6366F1?style=flat-square&labelColor=2d2d2d" />
 </p>
-
-<br/>
-
-```
-npx tsx scripts/run.ts "Buy cloud storage under 1 ALGO"
-```
 
 <br/>
 
@@ -50,7 +46,7 @@ npx tsx scripts/run.ts "Buy cloud storage under 1 ALGO"
 
 ## Overview
 
-Every digital purchase today — cloud storage, API access, compute — requires a human to search, compare, and pay. **A2A Agentic Commerce** removes that bottleneck entirely:
+Every digital purchase today — cloud storage, API access, compute, streaming accounts — requires a human to search, compare, and pay. **A2A Agentic Commerce** removes that bottleneck entirely. Fund the Vault, type what you want, and autonomous agents handle discovery, verification, negotiation, payment, and credential delivery end-to-end.
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#24292f', 'primaryTextColor': '#24292f', 'primaryBorderColor': '#d1d5db', 'lineColor': '#6b7280', 'secondaryColor': '#f6f8fa', 'tertiaryColor': '#f6f8fa', 'background': '#ffffff', 'mainBkg': '#f6f8fa', 'nodeBorder': '#d1d5db', 'clusterBkg': '#f6f8fa', 'clusterBorder': '#d1d5db', 'titleColor': '#24292f', 'edgeLabelBackground': '#ffffff', 'textColor': '#24292f'}}}%%
@@ -60,10 +56,11 @@ flowchart LR
     B["<b>AI Parse</b><br/><i>Groq Llama 3.3</i>"]:::node
     C["<b>Discover</b><br/><i>Algorand Indexer</i>"]:::node
     D["<b>ZK Verify</b><br/><i>On-chain SHA-256</i>"]:::accent
-    E["<b>Negotiate</b><br/><i>LLM-powered</i>"]:::node
-    F["<b>Pay</b><br/><i>Real ALGO</i>"]:::accent
+    E["<b>Negotiate</b><br/><i>Reputation-aware</i>"]:::node
+    F["<b>Vault Pay</b><br/><i>x402 Auto-Sign</i>"]:::accent
+    G["<b>Credentials</b><br/><i>Encrypted delivery</i>"]:::accent
 
-    A --> B --> C --> D --> E --> F
+    A --> B --> C --> D --> E --> F --> G
 
     classDef node fill:#f6f8fa,stroke:#d1d5db,color:#24292f,font-size:13px
     classDef accent fill:#24292f,stroke:#24292f,color:#ffffff,font-size:13px
@@ -79,32 +76,39 @@ flowchart LR
 
 <table>
 <tr>
-<td width="25%" align="center">
+<td width="20%" align="center">
 
 **x402 Protocol**
 
-Agents pay for premium API endpoints via HTTP 402 — automatic signing, on-chain settlement via [GoPlausible facilitator](https://x402.goplausible.xyz/). Not a simulation.
+Full x402 HTTP payment integration. Agents pay for credentials via 402 responses — signless, on-chain verified, no external facilitator dependency. Payment proof checked directly against the Algorand ledger.
 
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
+
+**Agent Vault**
+
+Fund once, sit back. The Vault wallet auto-signs payments, reputation updates, and ZK verifications on behalf of AI agents — zero wallet popups. Fully autonomous commerce.
+
+</td>
+<td width="20%" align="center">
 
 **On-Chain ZK**
 
-SHA-256 verification runs inside the AVM via a [deployed contract](https://lora.algokit.io/testnet/application/757481776). The blockchain enforces the proof, not client JavaScript.
+SHA-256 commit-reveal-verify runs inside the AVM via a [deployed contract](https://lora.algokit.io/testnet/application/757481776). The blockchain enforces the proof, not client JavaScript.
 
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
 
 **Wallet-Native**
 
-Pera, Defly, Lute. Server builds unsigned txns, wallet signs client-side. Private keys never touch the server.
+Pera, Defly, Lute. Server builds unsigned txns, wallet signs client-side. Private keys never touch the server. Or skip wallets entirely — let the Vault handle it.
 
 </td>
-<td width="25%" align="center">
+<td width="20%" align="center">
 
-**Real Transactions**
+**Encrypted Credentials**
 
-Every listing, commitment, and payment is a confirmed Algorand transaction. Verifiable `txId` and round number.
+Sellers provide username + password when listing. AES-256-GCM encrypted at rest. Delivered to buyers only after x402 payment proof is verified on-chain.
 
 </td>
 </tr>
@@ -116,9 +120,61 @@ Every listing, commitment, and payment is a confirmed Algorand transaction. Veri
 
 <br/>
 
+## Agent Vault — Autonomous Payments
+
+The Vault is the key to fully autonomous agent commerce. It's a server-managed wallet that AI agents auto-sign from — users fund it once, and agents handle everything from there. No popups, no approvals, no friction.
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'actorBkg': '#24292f', 'actorBorder': '#24292f', 'actorTextColor': '#ffffff', 'actorLineColor': '#6b7280', 'signalColor': '#24292f', 'signalTextColor': '#24292f', 'noteBkgColor': '#f6f8fa', 'noteBorderColor': '#d1d5db', 'noteTextColor': '#24292f', 'activationBorderColor': '#d1d5db', 'activationBkgColor': '#f6f8fa', 'sequenceNumberColor': '#ffffff', 'background': '#ffffff', 'mainBkg': '#ffffff'}}}%%
+
+sequenceDiagram
+    participant U as User
+    participant V as Vault Wallet
+    participant AI as AI Agent
+    participant A as Algorand
+    participant R as Reputation Contract
+    
+    U->>V: Fund vault (one-time)
+    
+    rect rgba(0, 0, 0, 0.03)
+        Note over AI: User types "Buy Netflix under 0.5 ALGO"
+        AI->>A: Discover → Verify → Negotiate
+    end
+    
+    rect rgba(0, 0, 0, 0.05)
+        Note over V,A: Auto-Sign Payment (zero popups)
+        V->>A: sendRawTransaction (vault key)
+        A-->>V: txId + confirmedRound
+    end
+    
+    rect rgba(0, 0, 0, 0.03)
+        Note over V,R: Auto-Sign Reputation Update
+        V->>R: submitFeedback(seller, 85)
+        R-->>V: Reputation updated on-chain
+    end
+
+    V-->>U: ✓ Credentials delivered
+```
+
+<br/>
+
+| Mode | How it works | Wallet popup? |
+|:-----|:-------------|:-------------:|
+| **Vault (preferred)** | Server auto-signs with vault key | **No** |
+| **Wallet** | Pera / Defly / Lute signs client-side | Yes |
+| **Server-side** | Uses `AVM_PRIVATE_KEY` (signless x402) | **No** |
+
+> Payment execution priority: **Vault → Wallet → Server-side**. If the Vault is funded, agents always auto-sign.
+
+<br/>
+
+---
+
+<br/>
+
 ## Live Smart Contracts
 
-> Both contracts are deployed and operational on Algorand TestNet. Click to inspect on Lora Explorer.
+> Both contracts are deployed and actively used on Algorand TestNet. Every purchase triggers real-time transactions — ZK verification and reputation updates hit the chain with every deal.
 
 <br/>
 
@@ -128,7 +184,7 @@ Every listing, commitment, and payment is a confirmed Algorand transaction. Veri
 
 ### [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) &nbsp; `App 757481776`
 
-On-chain commit-reveal-verify scheme. The AVM's native `sha256` opcode recomputes hashes and asserts correctness — trustless verification enforced at the protocol level.
+On-chain commit-reveal-verify scheme. The AVM's native `sha256` opcode recomputes hashes and asserts correctness — trustless verification enforced at the protocol level. Used in real-time during negotiations.
 
 ```
 commit(hash)            → Store SHA-256 hash in BoxMap
@@ -145,12 +201,12 @@ getStatus(hash)         → 0: not found | 1: committed | 2: verified
 
 ### [`AgentReputation`](https://lora.algokit.io/testnet/application/757478982) &nbsp; `App 757478982`
 
-ERC-8004 inspired reputation registry. Tracks agent scores, feedback counts, and active status in BoxMap storage — no user opt-in required.
+ERC-8004 inspired reputation registry. Tracks agent scores, feedback counts, and active status in BoxMap storage. Updated in real-time after every successful purchase — the Vault auto-signs feedback transactions.
 
 ```
-registerAgent()              → Create agent profile on-chain
-submitFeedback(agent, score) → Submit 0-100 rating
-getReputation(agent)         → Computed reputation score
+registerAgent()                      → Create agent profile on-chain
+submitFeedback(agent: address, score) → Submit 0–100 rating (ABI: address type)
+getReputation(agent)                  → avg(totalScore / feedbackCount) → 0–100
 ```
 
 <sub>
@@ -169,7 +225,7 @@ getReputation(agent)         → Computed reputation score
 
 ## x402 Payment Protocol
 
-Real integration with the [x402 HTTP payment standard](https://x402.goplausible.xyz/) — developed by Coinbase, extended to Algorand by GoPlausible. This is how autonomous agents pay for services: HTTP-native, zero human approval.
+Full integration with the [x402 HTTP payment standard](https://x402.goplausible.xyz/) — developed by Coinbase, extended to Algorand by GoPlausible. This is how autonomous agents pay for service credentials: HTTP-native, payment verified directly on-chain, credentials delivered only after proof verification.
 
 <br/>
 
@@ -177,31 +233,29 @@ Real integration with the [x402 HTTP payment standard](https://x402.goplausible.
 %%{init: {'theme': 'base', 'themeVariables': {'actorBkg': '#24292f', 'actorBorder': '#24292f', 'actorTextColor': '#ffffff', 'actorLineColor': '#6b7280', 'signalColor': '#24292f', 'signalTextColor': '#24292f', 'noteBkgColor': '#f6f8fa', 'noteBorderColor': '#d1d5db', 'noteTextColor': '#24292f', 'activationBorderColor': '#d1d5db', 'activationBkgColor': '#f6f8fa', 'sequenceNumberColor': '#ffffff', 'labelBoxBkgColor': '#f6f8fa', 'labelBoxBorderColor': '#d1d5db', 'labelTextColor': '#24292f', 'loopTextColor': '#24292f', 'background': '#ffffff', 'mainBkg': '#ffffff'}}}%%
 
 sequenceDiagram
-    participant C as Client Agent
-    participant S as Resource Server
-    participant F as Facilitator
+    participant C as Buyer Agent
+    participant V as Vault / Wallet
+    participant P as /api/products/{txId}
     participant A as Algorand
 
-    C->>S: GET /api/premium/data
-    S-->>C: 402 Payment Required
+    C->>V: Execute payment (auto-sign or wallet)
 
     rect rgba(0, 0, 0, 0.03)
-        Note over C: ClientAvmSigner builds atomic<br/>transaction group and signs
+        Note over V: Vault auto-signs — zero popup<br/>Wallet signs — user approval
+        V->>A: sendRawTransaction
+        A-->>V: txId + confirmedRound
     end
 
-    C->>S: Retry with X-PAYMENT header
-    S->>F: verify(payment)
-    F->>A: Simulate transaction group
-    A-->>F: Valid
-    F-->>S: isValid: true
-    S-->>C: 200 OK + premium data
+    C->>P: GET /api/products/{listingTxId}?proof={paymentTxId}&amount={negotiated}
 
-    rect rgba(0, 0, 0, 0.03)
-        Note over S,A: Settlement
-        S->>F: settle(payment)
-        F->>A: Sign + submit atomic group
-        A-->>F: Confirmed
+    rect rgba(0, 0, 0, 0.05)
+        Note over P,A: On-chain payment proof verification
+        P->>A: pendingTransactionInfo(paymentTxId)
+        A-->>P: receiver + amount + confirmedRound
+        Note over P: Verify receiver = seller ✓<br/>Verify amount ≥ negotiated price ✓
     end
+
+    P-->>C: 200 OK + decrypted credentials {username, password, notes}
 ```
 
 <br/>
@@ -211,7 +265,8 @@ sequenceDiagram
 | `@x402-avm/core` | Client, server, and facilitator primitives |
 | `@x402-avm/avm` | Algorand exact payment scheme, CAIP-2 network identifiers |
 | `@x402-avm/fetch` | `wrapFetchWithPayment()` — transparently handles 402 responses |
-| [`facilitator.goplausible.xyz`](https://facilitator.goplausible.xyz) | Public TestNet facilitator for payment settlement |
+| `@x402-avm/next` | Next.js App Router integration (`withX402`, `paymentProxyFromConfig`) |
+| `src/lib/x402.ts` | On-chain payment proof verifier — algosdk v3 compatible, multi-format receiver extraction |
 
 <br/>
 
@@ -221,7 +276,7 @@ sequenceDiagram
 
 ## On-Chain ZK Verification
 
-The commitment scheme is **enforced by the blockchain**, not by client code. The AVM executes `sha256` natively inside the [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) contract.
+The commitment scheme is **enforced by the blockchain**, not by client code. The AVM executes `sha256` natively inside the [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) contract. During negotiations, the buyer agent runs a **two-tier verification**: local preimage check first, then on-chain BoxMap lookup against the deployed contract.
 
 <br/>
 
@@ -256,12 +311,10 @@ sequenceDiagram
     end
 
     rect rgba(0, 0, 0, 0.05)
-        Note over S,ZC: On-Chain Reveal & Verify
-        S->>ZC: reveal(hash, preimage)
-        Note over ZC: AVM executes sha256(preimage)<br/>asserts equality with stored hash
-        ZC-->>ZC: isRevealed = true
-        B->>ZC: getStatus(hash)
-        ZC-->>B: Status 2 — VERIFIED
+        Note over B,ZC: Two-Tier Verification
+        B->>B: Tier 1 — Local preimage recompute
+        B->>ZC: Tier 2 — getStatus(hash) via BoxMap lookup
+        ZC-->>B: Status 1 (committed) or 2 (verified)
     end
 ```
 
@@ -281,7 +334,7 @@ sequenceDiagram
 
 ## Wallet Integration
 
-Server prepares unsigned transactions. Wallet signs client-side. No private keys on the server.
+Three modes of operation. Server prepares unsigned transactions. Wallet signs client-side. Or skip the wallet entirely and let the Vault handle it.
 
 <br/>
 
@@ -291,22 +344,24 @@ Server prepares unsigned transactions. Wallet signs client-side. No private keys
 sequenceDiagram
     participant U as User
     participant W as Wallet (Pera / Defly / Lute)
+    participant V as Vault (Auto-Sign)
     participant S as API Server
     participant A as Algorand
 
-    U->>W: Connect wallet
-    W-->>U: Address + accounts
-
-    rect rgba(0, 0, 0, 0.03)
-        Note over U,A: Payment Flow
+    alt Vault Funded
+        U->>S: Execute deal
+        S->>V: Auto-sign payment + reputation
+        V->>A: sendRawTransaction (no popup)
+        A-->>U: txId + credentials
+    else Wallet Connected
+        U->>W: Connect wallet
         U->>S: POST /api/wallet/prepare-payment
         S-->>U: Unsigned transaction (base64)
         U->>W: Sign transaction
         W-->>U: Signed transaction
         U->>S: POST /api/wallet/submit
         S->>A: sendRawTransaction
-        A-->>S: confirmedRound
-        S-->>U: txId + explorer link
+        A-->>U: txId + credentials
     end
 ```
 
@@ -317,6 +372,7 @@ sequenceDiagram
 | **[Pera](https://perawallet.app/)** | Mobile + Web | Most popular Algorand wallet |
 | **[Defly](https://defly.app/)** | Mobile | DeFi-focused, portfolio tracking |
 | **[Lute](https://lute.app/)** | Browser extension | Desktop-first experience |
+| **Vault** | Server-side | Zero-popup autonomous agent wallet |
 
 <sub>Powered by <code>@txnlab/use-wallet-react</code> v4</sub>
 
@@ -355,26 +411,32 @@ graph TD
 
     subgraph X402 [" x402 Payment Layer "]
         P["Middleware — 402 Required"]:::mid
-        Q["Facilitator — verify + settle"]:::mid
+        Q["On-Chain Proof Verifier"]:::mid
         P --> Q --> G
     end
 
     subgraph AGENTS [" Agent Runtime "]
         C["Buyer Agent — Indexer Discovery"]:::light
-        D["ZK Verifier"]:::mid
+        D["ZK Verifier — Two-Tier"]:::mid
         E["Negotiation — offer / counter / accept"]:::light
         K["Payment Executor"]:::light
     end
 
-    subgraph WALLET [" Wallet "]
+    subgraph VAULT [" Agent Vault "]
+        V["Auto-Sign Wallet"]:::dark
+    end
+
+    subgraph WALLET [" User Wallet "]
         W["Pera / Defly / Lute"]:::mid
     end
 
     H --> C --> D --> E
     E <--> F
-    E --> K --> W
-    W --> G
-    K --> M["Confirmed — txId + round"]:::dark
+    E --> K --> V
+    K -.-> W
+    V --> G
+    W -.-> G
+    K --> M["Confirmed — txId + credentials"]:::dark
 
     classDef dark fill:#24292f,stroke:#24292f,color:#ffffff,font-weight:bold
     classDef mid fill:#e5e7eb,stroke:#9ca3af,color:#24292f,font-weight:bold
@@ -392,14 +454,15 @@ graph TD
 | # | Stage | Description |
 |:--|:------|:------------|
 | 1 | **Connect** | Initialize Algorand client (TestNet via Algonode) |
-| 2 | **Post Listings** | Sellers publish 0-ALGO self-txns with JSON notes + SHA-256 commitment |
-| 3 | **ZK Commit** | Commitment hashes registered on [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) contract |
-| 4 | **AI Intent** | Groq Llama 3.3 70B parses natural language → structured intent |
-| 5 | **Indexer Discovery** | Query Algorand Indexer by `notePrefix` + seller address |
-| 6 | **Negotiate** | AI-powered `offer → counter → accept` with concession logic |
-| 7 | **ZK Reveal** | Seller reveals preimage → AVM verifies on-chain via [`sha256`](https://lora.algokit.io/testnet/application/757481776) |
-| 8 | **Execute Payment** | Real ALGO transfer → `txId` + `confirmedRound` |
-| 9 | **x402** | Premium endpoint settlement details |
+| 2 | **Post Listings** | Sellers publish 0-ALGO self-txns with JSON notes + SHA-256 commitment + credential metadata |
+| 3 | **ZK Commit** | Commitment hashes registered on [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) contract BoxMap |
+| 4 | **AI Intent** | Groq Llama 3.3 70B parses natural language → structured intent with search terms and product name preservation |
+| 5 | **Indexer Discovery** | Query Algorand Indexer by `notePrefix` + `minRound` (last ~2 days) — keyword + description matching with fallback search |
+| 6 | **ZK Verify** | Two-tier verification: local preimage recompute + on-chain BoxMap lookup via `verifyZKOnChain()` |
+| 7 | **Negotiate** | AI-powered `offer → counter → accept` with reputation-weighted concession logic |
+| 8 | **Payment** | Vault auto-sign (preferred) → Wallet sign → Server-side signless — payment confirmed on-chain |
+| 9 | **Credential Delivery** | Payment TX as x402 proof → `/api/products/{txId}?proof=&amount=` → on-chain verification → AES-256-GCM decrypt → credentials delivered |
+| 10 | **Reputation Update** | Auto-signed feedback transaction to `AgentReputation` contract — leaderboard updates in real-time |
 
 <br/>
 
@@ -411,14 +474,16 @@ graph TD
 
 | Technology | Purpose |
 |:-----------|:--------|
-| **Algorand TestNet** | Blockchain — listings, payments, ZK verification |
+| **Algorand TestNet** | Blockchain — listings, payments, ZK verification, reputation |
 | **PuyaTs → TEAL** | Smart contract compilation (Algorand TypeScript) |
-| **x402-avm** | HTTP 402 payment protocol + fee abstraction |
+| **x402-avm** (`core` · `avm` · `fetch` · `next`) | HTTP 402 payment protocol, on-chain proof verification |
+| **Agent Vault** | Server-side auto-sign wallet for fully autonomous agent operations |
 | **Pera · Defly · Lute** | Wallet authentication via `use-wallet` v4 |
-| **Groq Llama 3.3 70B** | Intent parsing + negotiation AI |
-| **Algorand Indexer** | On-chain listing discovery |
-| **algosdk v3 · algokit-utils v8** | Transaction building + account management |
-| **Next.js 15 · React 19 · Tailwind 4** | Frontend + API routes |
+| **Groq Llama 3.3 70B** | Intent parsing with search term extraction + reputation-aware negotiation AI |
+| **Algorand Indexer** | On-chain listing discovery with `minRound` scoping + keyword fallback |
+| **AES-256-GCM** | At-rest encryption of seller credentials (`src/lib/credentials.ts`) |
+| **algosdk v3 · algokit-utils v8** | Transaction building, raw signing, account management |
+| **Next.js 15 · React 19 · Tailwind 4** | Cyberpunk one-page frontend + 19 API routes |
 | **TypeScript 5.8** | End-to-end strict type safety |
 
 <br/>
@@ -433,7 +498,8 @@ graph TD
 
 ```bash
 git clone https://github.com/ogsamrat/a2a-ecommerce.git
-cd a2a-ecommerce && npm install
+cd a2a-ecommerce
+npm install
 cp .env.example .env
 ```
 
@@ -442,25 +508,27 @@ Configure `.env`:
 ```env
 GROQ_API_KEY=your_key                    # console.groq.com
 ALGORAND_NETWORK=testnet
-AVM_PRIVATE_KEY=your_base64_key          # For x402 premium endpoint signing
-FACILITATOR_URL=https://facilitator.goplausible.xyz
+AVM_PRIVATE_KEY=your_base64_key          # Buyer key — signs x402 payments server-side
 REPUTATION_APP_ID=757478982
 ZK_APP_ID=757481776
+
+# Optional — auto-generated if not set (persisted to .vault-key)
+# VAULT_PRIVATE_KEY=your_base64_key
 ```
 
-> Fund your TestNet account: [lora.algokit.io/testnet/fund](https://lora.algokit.io/testnet/fund)
+> Fund your TestNet buyer account: [lora.algokit.io/testnet/fund](https://lora.algokit.io/testnet/fund)
 
 **Terminal** (full pipeline):
 ```bash
 npx tsx scripts/run.ts "Buy cloud storage under 1 ALGO"
 ```
 
-**Web app** (with wallet auth):
+**Web app** (cyberpunk UI — vault + marketplace + sell + looker):
 ```bash
-npx next dev
+npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000) — connect Pera, Defly, or Lute.
+Open [localhost:3000](http://localhost:3000) — connect Pera, fund the Vault, or just start buying.
 
 <br/>
 
@@ -470,13 +538,15 @@ Open [localhost:3000](http://localhost:3000) — connect Pera, Defly, or Lute.
 
 ## API Reference
 
-**17 endpoints** for frontend integration. Full docs with request/response examples in [`API_GUIDE.md`](API_GUIDE.md).
+**19 endpoints** for frontend integration. Full docs with request/response examples in [`API_GUIDE.md`](API_GUIDE.md).
 
 | Category | Endpoints | Auth |
 |:---------|:----------|:-----|
+| **Vault** | `/api/vault` (GET info, POST fund/execute/sign) | Server / Wallet |
 | **Wallet** | `/api/wallet/info` · `prepare-payment` · `submit` | Wallet address |
-| **Listings** | `/api/listings/fetch` · `create` | None / Wallet |
-| **Reputation** | `/api/reputation/query` · `register` · `feedback` | None / Wallet |
+| **Listings** | `/api/listings/fetch` · `create` (+ `username` / `password` fields) | None / Wallet |
+| **Products** | `/api/products/[txId]` — x402 credential delivery with negotiated price support | On-chain payment proof |
+| **Reputation** | `/api/reputation/query` · `register` · `feedback` · `update` | None / Wallet / Vault |
 | **Commerce** | `/api/intent` · `discover` · `negotiate` · `execute` · `init` | Server |
 | **Premium** | `/api/premium/data` · `analyze` | x402 payment |
 
@@ -499,14 +569,25 @@ scripts/
 ├── deploy-zk.ts                      # Deploy ZKCommitment
 └── deploy-reputation.ts              # Deploy AgentReputation
 
-src/app/api/                          # 17 Next.js API routes
+src/app/api/                          # 19 Next.js API routes
+├── vault/                            # Vault fund/execute/sign (auto-sign wallet)
+├── products/[txId]/                  # x402-protected credential delivery
+├── listings/create/                  # Accepts username + password for AES-256-GCM storage
+└── ...
+
 src/components/                       # Wallet provider, connect UI, chat, cards
 src/lib/
-├── blockchain/                       # Algorand client, Indexer, ZK helpers
-├── agents/                           # Buyer + seller agent logic
-├── ai/                               # Groq LLM integration
-├── negotiation/                      # Multi-round engine
-└── x402/                             # x402 server + client wrappers
+├── blockchain/
+│   ├── algorand.ts                   # AlgorandClient + reputation query (0–100 avg)
+│   ├── vault.ts                      # Agent Vault — auto-sign wallet with file persistence
+│   ├── listings.ts                   # On-chain listing I/O with keyword fallback search
+│   ├── zk.ts                         # ZK commitment + on-chain BoxMap verification
+│   └── reputation.ts                 # submitFeedback(address,uint64) ABI calls
+├── credentials.ts                    # AES-256-GCM store/decrypt for seller credentials
+├── x402.ts                           # buildPaymentRequirements + verifyOnChainPayment (v3 compat)
+├── agents/                           # Buyer + seller agent logic with search term extraction
+├── ai/                               # Groq LLM integration with product name preservation
+└── negotiation/                      # Multi-round engine with two-tier ZK verification
 ```
 
 <br/>
@@ -517,15 +598,17 @@ src/lib/
 
 ## Roadmap
 
-- [x] On-chain service listings (0-ALGO transactions)
-- [x] Algorand Indexer discovery (no off-chain DB)
-- [x] **On-chain ZK** — [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) deployed on TestNet
-- [x] **Agent reputation** — [`AgentReputation`](https://lora.algokit.io/testnet/application/757478982) deployed on TestNet
-- [x] **x402 protocol** — payment-gated premium endpoints
-- [x] **Wallet auth** — Pera · Defly · Lute
-- [x] AI negotiation — Groq Llama 3.3 70B
-- [x] 17 API endpoints + [`API_GUIDE.md`](API_GUIDE.md)
-- [ ] Full frontend dashboard
+- [x] On-chain service listings (0-ALGO transactions with credential metadata)
+- [x] Algorand Indexer discovery — `minRound` scoped + keyword fallback search
+- [x] **On-chain ZK** — [`ZKCommitment`](https://lora.algokit.io/testnet/application/757481776) deployed on TestNet with two-tier verification
+- [x] **Agent reputation** — [`AgentReputation`](https://lora.algokit.io/testnet/application/757478982) — real-time on-chain updates after every purchase
+- [x] **x402 payments** — full protocol integration with on-chain proof verification
+- [x] **Agent Vault** — server-side auto-sign wallet, zero popups, file-persisted keys
+- [x] **Encrypted credential delivery** — AES-256-GCM, decrypted only after on-chain payment proof with negotiated price support
+- [x] **Wallet auth** — Pera · Defly · Lute with hydration-safe SSR
+- [x] AI negotiation — Groq Llama 3.3 70B (reputation-aware, search term extraction)
+- [x] 19 API endpoints + [`API_GUIDE.md`](API_GUIDE.md) + Vault API
+- [x] Full frontend dashboard — Marketplace · Sell · Vault · Looker · Reputation leaderboard · Live contract links
 - [ ] Multi-agent parallel negotiation
 - [ ] MainNet deployment
 
@@ -539,7 +622,7 @@ src/lib/
 
 **Built on [Algorand](https://algorand.co)** — 3.3s finality · <$0.001 fees · carbon negative
 
-<sub>x402 Payment Protocol &nbsp;·&nbsp; On-Chain ZK Verification &nbsp;·&nbsp; Groq AI &nbsp;·&nbsp; Wallet-Native</sub>
+<sub>x402 Protocol &nbsp;·&nbsp; Agent Vault Auto-Sign &nbsp;·&nbsp; On-Chain ZK Verification &nbsp;·&nbsp; Encrypted Credential Delivery &nbsp;·&nbsp; Groq AI &nbsp;·&nbsp; Wallet-Native</sub>
 
 <br/>
 
