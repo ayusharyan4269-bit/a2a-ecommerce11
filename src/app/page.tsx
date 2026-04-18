@@ -864,7 +864,7 @@ export default function Home() {
               <div className="flex items-center gap-2 pb-4 border-b border-[var(--border)]">
                 <span className="w-2 h-2 rounded-full bg-green-500" />
                 <span className="text-[10px] font-mono text-zinc-600">
-                  {activeAccount.address.slice(0, 20)}...{activeAccount.address.slice(-8)}
+                  {address.slice(0, 20)}...{address.slice(-8)}
                 </span>
                 <span className="badge-green ml-auto">CONNECTED</span>
               </div>
@@ -1107,7 +1107,7 @@ export default function Home() {
                   />
                   <button
                     onClick={async () => {
-                      if (!activeAccount || isVaultFunding) return;
+                      if (!address || isVaultFunding) return;
                       setIsVaultFunding(true);
                       setVaultStatus(null);
                       try {
@@ -1116,7 +1116,7 @@ export default function Home() {
                           headers: { "Content-Type": "application/json" },
                           body: JSON.stringify({
                             action: "fund",
-                            senderAddress: activeAccount.address,
+                            senderAddress: address,
                             amountAlgo: parseFloat(vaultFundAmt),
                           }),
                         });
