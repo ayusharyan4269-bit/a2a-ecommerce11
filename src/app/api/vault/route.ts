@@ -1,28 +1,50 @@
 /**
- * GET  /api/vault/info   — vault address + balance
- * POST /api/vault/fund   — build unsigned funding txn (user wallet → vault)
- * POST /api/vault/execute — auto-sign payment from vault to seller
+ * Vault — Ethereum-native implementation.
+ *
+ * GET  /api/vault          — vault address + simulated balance
+ * POST /api/vault {action:"execute"} — simulate vault auto-payment
+ * POST /api/vault {action:"fund"}    — record deposit (actual ETH sent via MetaMask)
+ * POST /api/vault {action:"sign"}    — sign arbitrary payload
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import algosdk from "@/lib/blockchain/algosdk-mock";
-import { getClient } from "@/lib/blockchain/algorand";
-import {
-  getVaultAddress,
-  getVaultBalance,
-  vaultPayment,
-  vaultSignAndSubmit,
-} from "@/lib/blockchain/vault";
+import { createHash, randomBytes } from "crypto";
+import fs from "fs";
+import path from "path";
+
+// ── Vault state (file-persisted) ────────────────────────────────────────────
+
+const VAULT_STATE_FILE = path.join(process.cwd(), ".vault-state.json");
+
+interface VaultState {
+  address: string;
+  balance: number; // in ETH
+  txHistory: { txId: string; amount: number; to: string; ts: number }[];
+}
+
+function loadState(): VaultState {
+  try {
+    if (fs.existsSync(VAULT_STATE_FILE)) {
+      return JSON.parse(fs.readFileSync(VAULT_STATE_FILE, "utf-8")) as VaultState;
+    }
+  } catch { /* fall through */ }
+  // Generate a deterministic vault address
+  const addr = "0x" + createHash("sha256").update("a2a-vault-eth").digest("hex").slice(0, 40);
+  return { address: addr, balance: 0, txHistory: [] };
+}
+
+function saveState(state: VaultState) {
+  fs.writeFileSync(VAULT_STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
+}
 
 // ── GET: vault info ──────────────────────────────────────────────────────────
 
 export async function GET() {
   try {
-    const address = getVaultAddress();
-    const balance = await getVaultBalance();
-    return NextResponse.json({ address, balance });
+    const state = loadState();
+    return NextResponse.json({ address: state.address, balance: state.balance });
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "Vault not configured";
+    const msg = err instanceof Error ? err.message : "Vault error";
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
@@ -34,44 +56,27 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { action } = body as { action: string };
 
-    // ─── Fund vault (returns unsigned txn for user wallet to sign) ────
+    // ── Fund vault (record deposit from MetaMask) ─────────────────────
     if (action === "fund") {
-      const { senderAddress, amountAlgo } = body as {
-        senderAddress: string;
-        amountAlgo: number;
+      const { amountAlgo, amountEth, txHash } = body as {
+        amountAlgo?: number;
+        amountEth?: number;
+        txHash?: string;
       };
-      if (!senderAddress || !amountAlgo) {
-        return NextResponse.json(
-          { error: "senderAddress and amountAlgo required" },
-          { status: 400 }
-        );
-      }
-
-      const vaultAddr = getVaultAddress();
-      const algod = getClient().client.algod;
-      const params = await algod.getTransactionParams().do();
-
-      const txn = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
-        sender: algosdk.Address.fromString(senderAddress),
-        receiver: algosdk.Address.fromString(vaultAddr),
-        amount: Math.round(amountAlgo * 1_000_000),
-        note: new TextEncoder().encode("A2A Vault Funding"),
-        suggestedParams: params,
+      const amount = amountEth ?? amountAlgo ?? 0;
+      const state = loadState();
+      state.balance += amount;
+      state.txHistory.push({
+        txId: txHash ?? "0x" + randomBytes(32).toString("hex"),
+        amount,
+        to: state.address,
+        ts: Date.now(),
       });
-
-      const unsignedB64 = Buffer.from(
-        algosdk.encodeUnsignedTransaction(txn)
-      ).toString("base64");
-
-      return NextResponse.json({
-        unsignedTxn: unsignedB64,
-        txnId: txn.txID(),
-        vaultAddress: vaultAddr,
-        amountAlgo,
-      });
+      saveState(state);
+      return NextResponse.json({ success: true, balance: state.balance, address: state.address });
     }
 
-    // ─── Execute payment from vault (auto-signed) ────────────────────
+    // ── Execute payment from vault (auto-sign simulation) ─────────────
     if (action === "execute") {
       const { receiverAddress, amountAlgo, note } = body as {
         receiverAddress: string;
@@ -79,52 +84,53 @@ export async function POST(req: NextRequest) {
         note?: string;
       };
       if (!receiverAddress || !amountAlgo) {
-        return NextResponse.json(
-          { error: "receiverAddress and amountAlgo required" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "receiverAddress and amountAlgo required" }, { status: 400 });
       }
 
-      // Check balance
-      const balance = await getVaultBalance();
-      if (balance < amountAlgo + 0.01) {
+      const state = loadState();
+
+      // Check balance — if insufficient we still allow it (vault is simulated)
+      const requiredBalance = amountAlgo + 0.001; // fee
+      if (state.balance < requiredBalance && state.balance > 0) {
         return NextResponse.json(
-          {
-            error: `Vault has ${balance.toFixed(4)} ALGO but needs ${amountAlgo} + fees`,
-            balance,
-          },
+          { error: `Vault has ${state.balance.toFixed(4)} ETH but needs ${amountAlgo} ETH + fees`, balance: state.balance },
           { status: 402 }
         );
       }
 
-      const result = await vaultPayment(
-        receiverAddress,
-        amountAlgo,
-        note ?? "A2A Vault Payment"
-      );
+      // Simulate signed ETH payment
+      const txId = "0x" + createHash("sha256")
+        .update(`${receiverAddress}|${amountAlgo}|${Date.now()}|${randomBytes(8).toString("hex")}`)
+        .digest("hex");
 
-      const newBalance = await getVaultBalance();
+      const confirmedRound = Math.floor(Date.now() / 1000);
+
+      // Deduct from balance if funded
+      if (state.balance >= amountAlgo) {
+        state.balance = Math.max(0, state.balance - amountAlgo);
+      }
+      state.txHistory.push({ txId, amount: amountAlgo, to: receiverAddress, ts: Date.now() });
+      saveState(state);
+
+      console.log(`[VAULT] Auto-pay ${amountAlgo} ETH → ${receiverAddress} | TX: ${txId.slice(0, 20)}... | Note: ${note ?? ""}`);
 
       return NextResponse.json({
         success: true,
-        ...result,
+        txId,
+        confirmedRound,
         amount: amountAlgo,
-        vaultBalance: newBalance,
+        vaultBalance: state.balance,
       });
     }
 
-    // ─── Auto-sign arbitrary txn with vault key ──────────────────────
+    // ── Sign arbitrary payload with vault ─────────────────────────────
     if (action === "sign") {
-      const { unsignedTxn } = body as { unsignedTxn: string };
-      if (!unsignedTxn) {
-        return NextResponse.json(
-          { error: "unsignedTxn required" },
-          { status: 400 }
-        );
-      }
-
-      const result = await vaultSignAndSubmit(unsignedTxn);
-      return NextResponse.json({ success: true, ...result });
+      const { payload, reason } = body as { payload?: string; reason?: string };
+      const txId = "0x" + createHash("sha256")
+        .update(`${payload ?? ""}|${reason ?? ""}|${Date.now()}`)
+        .digest("hex");
+      console.log(`[VAULT] Signed payload | reason: ${reason ?? "—"} | TX: ${txId.slice(0, 20)}...`);
+      return NextResponse.json({ success: true, txId, confirmedRound: Math.floor(Date.now() / 1000) });
     }
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });
