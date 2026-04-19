@@ -10,7 +10,7 @@
     "a2a": "npx tsx scripts/run.ts",
     "reputation": "npx tsx scripts/run-reputation.ts",
     "deploy:reputation": "npx tsx scripts/deploy-reputation.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && npx hardhat compile"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
