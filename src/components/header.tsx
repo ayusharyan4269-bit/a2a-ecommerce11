@@ -30,10 +30,10 @@ export function Header({ autoBuy, onToggleAutoBuy, phase }: HeaderProps) {
             A2A
           </div>
           <div>
-            <h1 className="text-lg font-semibold tracking-tight">
-              A2A Agentic Commerce
+            <h1 className="text-xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+              A2A TrustMesh AI
             </h1>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-100">
               Algorand Agent-to-Agent Framework
             </p>
           </div>
@@ -44,7 +44,7 @@ export function Header({ autoBuy, onToggleAutoBuy, phase }: HeaderProps) {
             <span
               className={`inline-block w-2 h-2 rounded-full ${currentPhase.color} ${phase === "negotiating" || phase === "executing" ? "animate-pulse" : ""}`}
             />
-            <span className="text-xs text-zinc-400">{currentPhase.label}</span>
+            <span className="text-xs text-white">{currentPhase.label}</span>
           </div>
 
           <button
@@ -52,7 +52,7 @@ export function Header({ autoBuy, onToggleAutoBuy, phase }: HeaderProps) {
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               autoBuy
                 ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                : "bg-zinc-800 text-zinc-400 border border-zinc-700 hover:border-zinc-600"
+                : "bg-zinc-800 text-white border border-zinc-700 hover:border-zinc-600"
             }`}
           >
             {autoBuy ? "Auto-Buy ON" : "Auto-Buy OFF"}

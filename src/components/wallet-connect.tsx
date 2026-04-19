@@ -34,7 +34,7 @@ export function WalletConnect() {
 
   if (!isReady) {
     return (
-      <div className="px-3 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-xs text-zinc-500">
+      <div className="px-3 py-1.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-xs text-zinc-100">
         Loading...
       </div>
     );
@@ -52,7 +52,7 @@ export function WalletConnect() {
             {truncateAddr(address)}
           </span>
           {balance !== null && (
-            <span className="text-[10px] text-zinc-400">
+            <span className="text-[10px] text-white">
               {balance.toFixed(4)} ETH
             </span>
           )}
@@ -63,8 +63,8 @@ export function WalletConnect() {
             <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
             <div className="absolute right-0 top-full mt-2 w-64 rounded-xl bg-zinc-900 border border-zinc-700 shadow-2xl z-50 overflow-hidden">
               <div className="p-3 border-b border-zinc-800">
-                <p className="text-xs text-zinc-400">Connected via MetaMask</p>
-                <p className="text-sm font-mono text-zinc-200 mt-1 break-all">
+                <p className="text-xs text-white">Connected via MetaMask</p>
+                <p className="text-sm font-mono text-white mt-1 break-all">
                   {address}
                 </p>
                 {balance !== null && (

@@ -3,8 +3,8 @@
 <br/>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/A2A-Agentic_Commerce-white?style=for-the-badge&labelColor=000000">
-  <img src="https://img.shields.io/badge/A2A-Agentic_Commerce-000000?style=for-the-badge&labelColor=white" alt="A2A" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/A2A-TrustMesh_AI-white?style=for-the-badge&labelColor=000000">
+  <img src="https://img.shields.io/badge/A2A-TrustMesh_AI-000000?style=for-the-badge&labelColor=white" alt="A2A TrustMesh AI" />
 </picture>
 
 <br/><br/>
@@ -46,7 +46,7 @@ and deliver encrypted credentials to buyers — all without a single human click
 
 ## Overview
 
-Every digital purchase today — cloud storage, API access, compute, streaming accounts — requires a human to search, compare, and pay. **A2A Agentic Commerce** removes that bottleneck entirely. Fund the Vault, type what you want, and autonomous agents handle discovery, verification, negotiation, payment, and credential delivery end-to-end.
+Every digital purchase today — cloud storage, API access, compute, streaming accounts — requires a human to search, compare, and pay. **A2A TrustMesh AI** removes that bottleneck entirely. Fund the Vault, type what you want, and autonomous agents handle discovery, verification, negotiation, payment, and credential delivery end-to-end.
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#24292f', 'primaryTextColor': '#24292f', 'primaryBorderColor': '#d1d5db', 'lineColor': '#6b7280', 'secondaryColor': '#f6f8fa', 'tertiaryColor': '#f6f8fa', 'background': '#ffffff', 'mainBkg': '#f6f8fa', 'nodeBorder': '#d1d5db', 'clusterBkg': '#f6f8fa', 'clusterBorder': '#d1d5db', 'titleColor': '#24292f', 'edgeLabelBackground': '#ffffff', 'textColor': '#24292f'}}}%%

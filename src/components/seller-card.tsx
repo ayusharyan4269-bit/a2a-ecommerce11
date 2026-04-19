@@ -19,8 +19,8 @@ export function ListingCard({ listing, negotiation, isSelected }: ListingCardPro
     >
       <div className="flex items-start justify-between mb-2">
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold text-zinc-200 truncate">{listing.seller}</h3>
-          <p className="text-[10px] text-zinc-500 mt-0.5">{listing.type}</p>
+          <h3 className="text-sm font-semibold text-white truncate">{listing.seller}</h3>
+          <p className="text-[10px] text-zinc-100 mt-0.5">{listing.type}</p>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {listing.zkCommitment && (
@@ -34,16 +34,16 @@ export function ListingCard({ listing, negotiation, isSelected }: ListingCardPro
         </div>
       </div>
 
-      <p className="text-xs text-zinc-500 leading-relaxed mb-2 line-clamp-2">
+      <p className="text-xs text-zinc-100 leading-relaxed mb-2 line-clamp-2">
         {listing.description}
       </p>
 
-      <div className="text-[10px] text-zinc-600 mb-2 font-mono truncate">
+      <div className="text-[10px] text-white mb-2 font-mono truncate">
         TX: {listing.txId.slice(0, 24)}...
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-[10px] text-zinc-600">Round: {listing.round}</span>
+        <span className="text-[10px] text-white">Round: {listing.round}</span>
         <div className="text-right">
           {negotiation ? (
             <div>
@@ -52,12 +52,12 @@ export function ListingCard({ listing, negotiation, isSelected }: ListingCardPro
               >
                 {negotiation.finalPrice} ALGO
               </span>
-              <span className="text-[10px] text-zinc-600 ml-1 line-through">
+              <span className="text-[10px] text-white ml-1 line-through">
                 {listing.price}
               </span>
             </div>
           ) : (
-            <span className="text-sm font-semibold text-zinc-300">
+            <span className="text-sm font-semibold text-zinc-100">
               {listing.price} ALGO
             </span>
           )}
@@ -67,7 +67,7 @@ export function ListingCard({ listing, negotiation, isSelected }: ListingCardPro
       {negotiation && (
         <div className="mt-2 pt-2 border-t border-zinc-800/50">
           <div className="flex items-center justify-between text-[10px]">
-            <span className="text-zinc-500">
+            <span className="text-zinc-100">
               {negotiation.rounds} msg(s) • {negotiation.zkVerified ? "ZK Verified" : "No ZK"}
             </span>
             <span
@@ -77,7 +77,7 @@ export function ListingCard({ listing, negotiation, isSelected }: ListingCardPro
             </span>
           </div>
           {negotiation.accepted && (
-            <div className="mt-1 text-[10px] text-zinc-500">
+            <div className="mt-1 text-[10px] text-zinc-100">
               Saved{" "}
               {Math.round(
                 ((listing.price - negotiation.finalPrice) / listing.price) * 100

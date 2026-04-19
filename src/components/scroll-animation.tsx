@@ -124,7 +124,7 @@ export function ScrollAnimation() {
           style={{ zIndex: 100 }}
         >
           <div className="w-12 h-12 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin" />
-          <p className="text-xs font-mono text-zinc-500 tracking-widest">
+          <p className="text-xs font-mono text-zinc-100 tracking-widest">
             LOADING SEQUENCE...
           </p>
         </div>

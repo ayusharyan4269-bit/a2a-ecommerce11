@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useWallet } from "@/hooks/use-wallet";
 import { ethers } from "ethers";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { WalletConnect } from "@/components/wallet-connect";
 import { ScrollAnimation } from "@/components/scroll-animation";
 import A2AEscrowArtifact from "../../artifacts/contracts/A2AEscrow.sol/A2AEscrow.json";
@@ -47,7 +49,7 @@ const SERVICE_TYPES = [
 ];
 
 const PHASE_MAP: Record<string, { label: string; color: string; dot: string }> = {
-  idle: { label: "IDLE", color: "text-zinc-500", dot: "bg-zinc-600" },
+  idle: { label: "IDLE", color: "text-zinc-100", dot: "bg-zinc-600" },
   initializing: { label: "INIT", color: "text-cyan-400", dot: "bg-cyan-500" },
   parsing: { label: "PARSING", color: "text-blue-400", dot: "bg-blue-500" },
   discovering: { label: "SCANNING", color: "text-violet-400", dot: "bg-violet-500" },
@@ -97,8 +99,8 @@ function ActionLine({ action }: { action: AgentAction }) {
       action.agent === "seller" ? "text-pink-400" :
         action.agent === "user" ? "text-green-400" :
           action.type === "transaction" ? "text-yellow-400" :
-            action.type === "result" ? "text-zinc-200" :
-              "text-zinc-600";
+            action.type === "result" ? "text-white" :
+              "text-white";
 
   // Render URLs inside content as clickable links
   function renderContent(text: string) {
@@ -124,8 +126,8 @@ function ActionLine({ action }: { action: AgentAction }) {
 
   return (
     <div className={`flex gap-2 text-[11px] leading-relaxed font-mono ${colorClass}`}>
-      <span className="text-zinc-700 shrink-0">{ts}</span>
-      <span className="text-zinc-600 shrink-0">[{action.agentName}]</span>
+      <span className="text-zinc-100 shrink-0">{ts}</span>
+      <span className="text-white shrink-0">[{action.agentName}]</span>
       <span className="break-all whitespace-pre-wrap">{renderContent(action.content)}</span>
     </div>
   );
@@ -144,6 +146,7 @@ function ScoreBar({ score }: { score: number }) {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const pathname = usePathname();
   const { address, signer } = useWallet();
 
   // Hydration guard — wallet state differs between server and client
@@ -164,6 +167,19 @@ export default function Home() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showCredPassword, setShowCredPassword] = useState(false);
+
+  // Sync scroll position with Next.js pathname routing
+  useEffect(() => {
+    if (pathname && pathname !== "/") {
+      const sectionId = pathname.replace("/", "");
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pathname]);
 
   // Purchased credentials — shown after successful x402 payment
   const [purchasedCreds, setPurchasedCreds] = useState<{
@@ -200,8 +216,7 @@ export default function Home() {
   // Insufficient balance modal
   const [insufficientModal, setInsufficientModal] = useState<{ open: boolean; needed: number; have: number } | null>(null);
 
-  // Active section tracking for nav highlight
-  const [activeSection, setActiveSection] = useState("overview");
+  // Active section tracking removed in favor of Route-based navigation.
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -333,22 +348,6 @@ export default function Home() {
       }
     }
   }, [session.negotiations]);
-
-  // Intersection observer for section nav highlight
-  useEffect(() => {
-    const sections = ["overview", "sell", "marketplace", "looker"];
-    const observers = sections.map(id => {
-      const el = document.getElementById(id);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { threshold: 0.3 },
-      );
-      obs.observe(el);
-      return obs;
-    });
-    return () => observers.forEach(o => o?.disconnect());
-  }, []);
 
   // ── Browse listings ──────────────────────────────────────────────────────────
 
@@ -772,25 +771,35 @@ export default function Home() {
                   <span className="font-orbitron text-[8px] font-black text-cyan-400">A2A</span>
                 </div>
                 <span className="font-orbitron font-bold text-sm tracking-[0.2em] text-white hidden sm:block">
-                  A2A<span className="text-cyan-400">.</span>COMMERCE
+                  A2A<span className="text-cyan-400"> </span>TrustMesh AI
                 </span>
               </a>
 
               {/* Nav links */}
               <div className="flex items-center">
-                {(["OVERVIEW", "SELL", "VAULT", "MARKETPLACE", "LOOKER"] as const).map(sec => {
-                  const isActive = activeSection === sec.toLowerCase();
+                {[
+                  { label: "OVERVIEW", path: "/" },
+                  { label: "SELL", path: "/sell" },
+                  { label: "VAULT", path: "/vault" },
+                  { label: "MARKETPLACE", path: "/marketplace" },
+                  { label: "LOOKER", path: "/looker" },
+                ].map(navItem => {
+                  const isActivePath =
+                    pathname === navItem.path ||
+                    (navItem.path !== "/" && pathname?.startsWith(`${navItem.path}/`));
+                  
                   return (
-                    <a
-                      key={sec}
-                      href={`#${sec.toLowerCase()}`}
-                      className={`px-3 py-5 text-[10px] font-orbitron tracking-[0.15em] border-b-2 transition-all ${isActive
-                        ? "text-cyan-400 border-cyan-400"
-                        : "text-zinc-600 border-transparent hover:text-zinc-300 hover:border-zinc-700"
-                        }`}
+                    <Link
+                      key={navItem.label}
+                      href={navItem.path}
+                      className={`px-3 py-5 text-[10px] font-orbitron tracking-[0.15em] border-b-2 transition-all ${
+                        isActivePath
+                          ? "text-cyan-400 border-cyan-400 drop-shadow-[0_0_8px_rgba(14,165,233,0.6)] font-bold opacity-100"
+                          : "text-white border-transparent hover:text-zinc-200 hover:border-zinc-700 opacity-60"
+                      }`}
                     >
-                      {sec}
-                    </a>
+                      {navItem.label}
+                    </Link>
                   );
                 })}
               </div>
@@ -798,14 +807,14 @@ export default function Home() {
               {/* Right controls */}
               <div className="flex items-center gap-2 shrink-0">
                 <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/40 border border-[var(--border)] text-[10px] font-mono">
-                  <span className={`w-1.5 h-1.5 rounded-full ${phaseConfig.dot} ${isActive ? "animate-pulse" : ""}`} />
+                  <span className={`w-1.5 h-1.5 rounded-full ${phaseConfig.dot} ${session.phase !== 'idle' ? "animate-pulse" : ""}`} />
                   <span className={phaseConfig.color}>{phaseConfig.label}</span>
                 </div>
                 <button
                   onClick={() => setAutoBuy(p => !p)}
                   className={`hidden md:block px-2.5 py-1 text-[10px] font-mono border rounded transition-all ${autoBuy
                     ? "text-green-400 border-green-500/30 bg-green-500/5"
-                    : "text-zinc-700 border-zinc-800 hover:text-zinc-400"
+                    : "text-zinc-100 border-zinc-800 hover:text-zinc-400"
                     }`}
                 >
                   AUTO {autoBuy ? "ON" : "OFF"}
@@ -845,12 +854,12 @@ export default function Home() {
                   </span>
                   <br />
                   <span style={{ color: "var(--magenta)", textShadow: "0 0 40px rgba(240,0,255,0.2)", fontSize: "clamp(2rem, 8vw, 5rem)" }}>
-                    COMMERCE
+                    TrustMesh AI
                   </span>
                 </h1>
               </div>
 
-              <p className="text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed font-mono text-sm sm:text-base animate-fade-in">
+              <p className="text-white max-w-2xl mx-auto mb-10 leading-relaxed font-mono text-sm sm:text-base animate-fade-in">
                 Autonomous AI agents discover, negotiate, and transact on{" "}
                 <span className="text-cyan-400 font-bold">Ethereum</span>.{" "}
                 On-chain ZK verification · x402 payment protocol · Real ETH settlements.
@@ -882,7 +891,7 @@ export default function Home() {
                   <div key={stat.label} className="neon-card rounded-xl p-4 text-left">
                     <div className="section-label mb-2">{stat.label}</div>
                     <div className={`font-orbitron font-bold text-lg ${stat.color}`}>{stat.value}</div>
-                    <div className="text-zinc-700 text-[10px] mt-0.5">{stat.sub}</div>
+                    <div className="text-zinc-100 text-[10px] mt-0.5">{stat.sub}</div>
                   </div>
                 ))}
               </div>
@@ -899,10 +908,10 @@ export default function Home() {
                     <div className="text-xl mb-3 text-cyan-500/40 group-hover:text-cyan-400 transition-colors duration-300">
                       {feat.icon}
                     </div>
-                    <div className="font-orbitron font-bold text-[10px] tracking-widest text-zinc-300 mb-1.5">
+                    <div className="font-orbitron font-bold text-[10px] tracking-widest text-zinc-100 mb-1.5">
                       {feat.title}
                     </div>
-                    <div className="text-zinc-600 text-[10px] leading-relaxed">{feat.desc}</div>
+                    <div className="text-white text-[10px] leading-relaxed">{feat.desc}</div>
                   </div>
                 ))}
               </div>
@@ -923,7 +932,7 @@ export default function Home() {
               <h2 className="font-orbitron font-bold text-white mb-2" style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)" }}>
                 List Your <span style={{ color: "var(--magenta)" }}>Service</span>
               </h2>
-              <p className="text-zinc-600 text-sm mb-10 font-mono">
+              <p className="text-white text-sm mb-10 font-mono">
                 Post to the Ethereum Indexer. AI buyer agents will discover and negotiate automatically.
               </p>
 
@@ -935,8 +944,8 @@ export default function Home() {
                   >
                     ◈
                   </div>
-                  <p className="font-orbitron text-sm text-zinc-400 mb-1 tracking-widest">WALLET REQUIRED</p>
-                  <p className="text-zinc-600 text-xs mb-6 font-mono">Connect your Ethereum wallet to sign and broadcast a listing.</p>
+                  <p className="font-orbitron text-sm text-white mb-1 tracking-widest">WALLET REQUIRED</p>
+                  <p className="text-white text-xs mb-6 font-mono">Connect your Ethereum wallet to sign and broadcast a listing.</p>
                   <WalletConnect />
                 </div>
               ) : (
@@ -944,7 +953,7 @@ export default function Home() {
                   {/* Seller tag */}
                   <div className="flex items-center gap-2 pb-4 border-b border-[var(--border)]">
                     <span className="w-2 h-2 rounded-full bg-green-500" />
-                    <span className="text-[10px] font-mono text-zinc-600">
+                    <span className="text-[10px] font-mono text-white">
                       {address.slice(0, 20)}...{address.slice(-8)}
                     </span>
                     <span className="badge-green ml-auto">CONNECTED</span>
@@ -1006,7 +1015,7 @@ export default function Home() {
                       <div className="border border-cyan-500/20 rounded-xl p-4 space-y-3 bg-cyan-500/3">
                         <div className="flex items-center gap-2">
                           <span className="text-cyan-400 text-xs font-orbitron tracking-widest">🔐 PRODUCT CREDENTIALS</span>
-                          <span className="text-[10px] text-zinc-500 font-mono">delivered to buyer after x402 payment</span>
+                          <span className="text-[10px] text-zinc-100 font-mono">delivered to buyer after x402 payment</span>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
@@ -1024,7 +1033,7 @@ export default function Home() {
                           <div className="space-y-1.5">
                             <label className="section-label flex items-center justify-between">
                               PASSWORD *
-                              <button type="button" onClick={() => setShowPassword(p => !p)} className="text-zinc-500 hover:text-cyan-400 text-[10px] font-mono">
+                              <button type="button" onClick={() => setShowPassword(p => !p)} className="text-zinc-100 hover:text-cyan-400 text-[10px] font-mono">
                                 {showPassword ? "HIDE" : "SHOW"}
                               </button>
                             </label>
@@ -1126,7 +1135,7 @@ export default function Home() {
               <h2 className="font-orbitron font-bold text-white mb-2" style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)" }}>
                 Agent <span style={{ color: "var(--cyan)" }}>Vault</span>
               </h2>
-              <p className="text-zinc-600 text-sm mb-8 font-mono">
+              <p className="text-white text-sm mb-8 font-mono">
                 Fund this wallet and AI agents will auto-sign payments &amp; reputation updates — zero popups.
               </p>
 
@@ -1137,7 +1146,7 @@ export default function Home() {
                     ⬡
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[9px] text-zinc-600 font-mono mb-0.5">VAULT ADDRESS</div>
+                    <div className="text-[9px] text-white font-mono mb-0.5">VAULT ADDRESS</div>
                     {vaultAddress ? (
                       <div className="flex items-center gap-2">
                         <a
@@ -1149,27 +1158,27 @@ export default function Home() {
                         </a>
                         <button
                           onClick={() => navigator.clipboard.writeText(vaultAddress)}
-                          className="text-[9px] text-zinc-600 hover:text-cyan-400 font-mono shrink-0 transition-colors"
+                          className="text-[9px] text-white hover:text-cyan-400 font-mono shrink-0 transition-colors"
                         >
                           COPY
                         </button>
                       </div>
                     ) : (
-                      <span className="text-zinc-700 text-xs font-mono">Not configured</span>
+                      <span className="text-zinc-100 text-xs font-mono">Not configured</span>
                     )}
                   </div>
                   <div className="text-right shrink-0">
                     <div className="font-orbitron font-bold text-xl" style={{ color: vaultBalance > 0.1 ? "var(--green)" : "var(--red)" }}>
                       {vaultBalance.toFixed(4)}
                     </div>
-                    <div className="text-[10px] text-zinc-600 font-mono">ETH</div>
+                    <div className="text-[10px] text-white font-mono">ETH</div>
                   </div>
                 </div>
 
                 {/* Status indicator */}
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${vaultBalance > 0.1 ? "bg-green-500 animate-pulse" : "bg-zinc-700"}`} />
-                  <span className={`text-[10px] font-mono ${vaultBalance > 0.1 ? "text-green-400" : "text-zinc-600"}`}>
+                  <span className={`text-[10px] font-mono ${vaultBalance > 0.1 ? "text-green-400" : "text-white"}`}>
                     {vaultBalance > 0.1 ? "VAULT ACTIVE — agents will auto-sign" : "VAULT EMPTY — fund to enable auto-sign"}
                   </span>
                 </div>
@@ -1248,14 +1257,14 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="text-center py-3">
-                    <p className="text-zinc-600 text-xs font-mono mb-3">Connect wallet to fund the vault</p>
+                    <p className="text-white text-xs font-mono mb-3">Connect wallet to fund the vault</p>
                     <WalletConnect />
                   </div>
                 )}
 
                 {/* How it works */}
                 <div className="pt-3 border-t border-[var(--border)]">
-                  <div className="text-[9px] text-zinc-600 font-mono mb-2">HOW IT WORKS</div>
+                  <div className="text-[9px] text-white font-mono mb-2">HOW IT WORKS</div>
                   <div className="grid grid-cols-3 gap-3 text-center">
                     {[
                       { step: "1", label: "FUND", desc: "Send ETH to vault" },
@@ -1264,8 +1273,8 @@ export default function Home() {
                     ].map(s => (
                       <div key={s.step} className="py-2">
                         <div className="text-cyan-500 font-orbitron text-xs mb-1">{s.step}</div>
-                        <div className="text-zinc-300 text-[10px] font-mono font-bold">{s.label}</div>
-                        <div className="text-zinc-700 text-[9px] font-mono">{s.desc}</div>
+                        <div className="text-zinc-100 text-[10px] font-mono font-bold">{s.label}</div>
+                        <div className="text-zinc-100 text-[9px] font-mono">{s.desc}</div>
                       </div>
                     ))}
                   </div>
@@ -1325,10 +1334,10 @@ export default function Home() {
                         <div className="flex justify-between items-start gap-2">
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-1.5 mb-0.5">
-                              <span className="text-zinc-200 text-sm font-medium truncate">{listing.service}</span>
+                              <span className="text-white text-sm font-medium truncate">{listing.service}</span>
                               {listing.zkCommitment && <span className="badge-mag">ZK</span>}
                             </div>
-                            <div className="text-zinc-600 text-[10px] font-mono mb-1">{listing.type} · Round {listing.round}</div>
+                            <div className="text-white text-[10px] font-mono mb-1">{listing.type} · Round {listing.round}</div>
                             <a
                               href={`https://lora.algokit.io/testnet/transaction/${listing.txId}`}
                               target="_blank" rel="noopener noreferrer"
@@ -1341,7 +1350,7 @@ export default function Home() {
                           <div className="text-right shrink-0 flex flex-col items-end gap-2">
                             <div>
                               <div className="font-orbitron font-bold text-[var(--green)]">{listing.price}</div>
-                              <div className="text-[10px] text-zinc-700">ETH</div>
+                              <div className="text-[10px] text-zinc-100">ETH</div>
                             </div>
                             <button
                               onClick={() => {
@@ -1364,7 +1373,7 @@ export default function Home() {
                     {!isBrowsing && browseFetched && browseListings.length === 0 && (
                       <div className="neon-card rounded-xl p-8 text-center">
                         <div className="text-4xl opacity-10 mb-3">◈</div>
-                        <p className="text-zinc-600 text-sm font-mono">No listings found.<br />Run AI commerce to seed data.</p>
+                        <p className="text-white text-sm font-mono">No listings found.<br />Run AI commerce to seed data.</p>
                       </div>
                     )}
                   </div>
@@ -1380,7 +1389,7 @@ export default function Home() {
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: "var(--red)" }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: "var(--yellow)" }} />
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: "var(--green)" }} />
-                      <span className="ml-2 text-[10px] font-mono text-zinc-700">A2A_COMMERCE_AGENT v1.0 // ETHRAND TESTNET</span>
+                      <span className="ml-2 text-[10px] font-mono text-zinc-100">A2A_COMMERCE_AGENT v1.0 // ETHRAND TESTNET</span>
                       <span className={`ml-auto text-[10px] font-mono ${phaseConfig.color}`}>[{phaseConfig.label}]</span>
                     </div>
 
@@ -1392,7 +1401,7 @@ export default function Home() {
                       {session.actions.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-center py-8">
                           <div className="font-orbitron text-2xl text-cyan-500/20 mb-3 animate-blink">{">"}_</div>
-                          <p className="text-zinc-700 text-xs font-mono mb-6">
+                          <p className="text-zinc-100 text-xs font-mono mb-6">
                             System ready. Enter a purchase intent below.
                           </p>
                           <div className="flex flex-wrap gap-2 justify-center">
@@ -1401,7 +1410,7 @@ export default function Home() {
                                 key={s}
                                 onClick={() => handleSubmit(s)}
                                 disabled={isLoading}
-                                className="px-3 py-1.5 text-[10px] font-mono border border-cyan-500/15 text-zinc-600 rounded hover:border-cyan-500/40 hover:text-zinc-300 transition-all"
+                                className="px-3 py-1.5 text-[10px] font-mono border border-cyan-500/15 text-white rounded hover:border-cyan-500/40 hover:text-zinc-300 transition-all"
                               >
                                 {s}
                               </button>
@@ -1416,7 +1425,7 @@ export default function Home() {
                       {isActive && (
                         <div className="flex items-center gap-1 text-cyan-400 text-[11px] font-mono mt-1">
                           <span className="animate-blink">█</span>
-                          <span className="text-zinc-700 text-[10px]">processing...</span>
+                          <span className="text-zinc-100 text-[10px]">processing...</span>
                         </div>
                       )}
                     </div>
@@ -1433,10 +1442,10 @@ export default function Home() {
                           <p className="font-orbitron text-xs tracking-widest font-bold" style={{ color: "var(--green)" }}>
                             ✓ DEAL NEGOTIATED
                           </p>
-                          <p className="text-zinc-400 text-xs mt-0.5 font-mono">
+                          <p className="text-white text-xs mt-0.5 font-mono">
                             {session.selectedDeal!.sellerName} · {session.selectedDeal!.service}
                           </p>
-                          <p className="text-zinc-600 text-[10px] font-mono">
+                          <p className="text-white text-[10px] font-mono">
                             {walletReady ? "Wallet connected — will sign payment" : vaultBalance > 0.1 ? "Vault auto-sign" : "Server-side payment"}
                           </p>
                         </div>
@@ -1469,9 +1478,9 @@ export default function Home() {
                       style={{ borderColor: "rgba(0,229,255,0.3)", background: "rgba(0,229,255,0.02)" }}
                     >
                       <p className="font-orbitron text-[10px] tracking-widest text-cyan-400 mb-2">✓ PAYMENT CONFIRMED ON-CHAIN</p>
-                      <div className="space-y-1 text-[11px] font-mono text-zinc-500">
+                      <div className="space-y-1 text-[11px] font-mono text-zinc-100">
                         {session.escrow.confirmedRound ? (
-                          <div>ROUND: <span className="text-zinc-300">{session.escrow.confirmedRound}</span></div>
+                          <div>ROUND: <span className="text-zinc-100">{session.escrow.confirmedRound}</span></div>
                         ) : null}
                         {session.escrow.amount ? (
                           <div>AMOUNT: <span style={{ color: "var(--green)" }}>{session.escrow.amount} ETH</span></div>
@@ -1480,7 +1489,7 @@ export default function Home() {
                       </div>
                       {session.escrow.txId && (
                         <div className="mt-2 space-y-1">
-                          <div className="text-[9px] text-zinc-700 font-mono">TRANSACTION ID</div>
+                          <div className="text-[9px] text-zinc-100 font-mono">TRANSACTION ID</div>
                           <a
                             href={`https://lora.algokit.io/testnet/transaction/${session.escrow.txId}`}
                             target="_blank" rel="noopener noreferrer"
@@ -1506,35 +1515,35 @@ export default function Home() {
                       <div className="flex items-center gap-2 mb-3">
                         <span className="text-green-400 text-base">🔐</span>
                         <span className="font-orbitron text-[10px] tracking-widest text-green-400">CREDENTIALS DELIVERED</span>
-                        <span className="text-[9px] text-zinc-600 font-mono ml-auto">via x402 protocol</span>
+                        <span className="text-[9px] text-white font-mono ml-auto">via x402 protocol</span>
                       </div>
                       {purchasedCreds.service && (
-                        <div className="text-[10px] text-zinc-400 font-mono mb-3">
-                          SERVICE: <span className="text-zinc-200">{purchasedCreds.service}</span>
+                        <div className="text-[10px] text-white font-mono mb-3">
+                          SERVICE: <span className="text-white">{purchasedCreds.service}</span>
                         </div>
                       )}
                       <div className="space-y-2">
                         <div className="flex items-center justify-between bg-zinc-900/60 rounded-lg px-3 py-2 gap-2">
-                          <span className="text-[9px] text-zinc-500 font-mono shrink-0">USERNAME</span>
+                          <span className="text-[9px] text-zinc-100 font-mono shrink-0">USERNAME</span>
                           <span className="text-[11px] text-green-300 font-mono flex-1 break-all">{purchasedCreds.username}</span>
-                          <button onClick={() => navigator.clipboard.writeText(purchasedCreds!.username)} className="text-[9px] text-zinc-600 hover:text-cyan-400 font-mono shrink-0">COPY</button>
+                          <button onClick={() => navigator.clipboard.writeText(purchasedCreds!.username)} className="text-[9px] text-white hover:text-cyan-400 font-mono shrink-0">COPY</button>
                         </div>
                         <div className="flex items-center justify-between bg-zinc-900/60 rounded-lg px-3 py-2 gap-2">
-                          <span className="text-[9px] text-zinc-500 font-mono shrink-0">PASSWORD</span>
+                          <span className="text-[9px] text-zinc-100 font-mono shrink-0">PASSWORD</span>
                           <span className="text-[11px] text-green-300 font-mono flex-1 break-all">
                             {showCredPassword ? purchasedCreds.password : "•".repeat(Math.min(purchasedCreds.password.length, 16))}
                           </span>
-                          <button onClick={() => setShowCredPassword(p => !p)} className="text-[9px] text-zinc-600 hover:text-cyan-400 font-mono shrink-0">{showCredPassword ? "HIDE" : "SHOW"}</button>
-                          <button onClick={() => navigator.clipboard.writeText(purchasedCreds!.password)} className="text-[9px] text-zinc-600 hover:text-cyan-400 font-mono shrink-0">COPY</button>
+                          <button onClick={() => setShowCredPassword(p => !p)} className="text-[9px] text-white hover:text-cyan-400 font-mono shrink-0">{showCredPassword ? "HIDE" : "SHOW"}</button>
+                          <button onClick={() => navigator.clipboard.writeText(purchasedCreds!.password)} className="text-[9px] text-white hover:text-cyan-400 font-mono shrink-0">COPY</button>
                         </div>
                         {purchasedCreds.notes && (
                           <div className="bg-zinc-900/40 rounded-lg px-3 py-2">
-                            <div className="text-[9px] text-zinc-600 font-mono mb-1">NOTES</div>
-                            <div className="text-[10px] text-zinc-400 font-mono">{purchasedCreds.notes}</div>
+                            <div className="text-[9px] text-white font-mono mb-1">NOTES</div>
+                            <div className="text-[10px] text-white font-mono">{purchasedCreds.notes}</div>
                           </div>
                         )}
                       </div>
-                      <div className="mt-2 text-[9px] text-zinc-700 font-mono">
+                      <div className="mt-2 text-[9px] text-zinc-100 font-mono">
                         ⚠ Store these credentials securely. They will not persist after page refresh.
                       </div>
                     </div>
@@ -1571,14 +1580,14 @@ export default function Home() {
                         onClick={() => setAutoBuy(p => !p)}
                         className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono border rounded transition-all ${autoBuy
                           ? "text-green-400 border-green-500/30 bg-green-500/5"
-                          : "text-zinc-600 border-zinc-800 hover:text-zinc-400"
+                          : "text-white border-zinc-800 hover:text-zinc-400"
                           }`}
                       >
                         <span className={`w-1.5 h-1.5 rounded-full ${autoBuy ? "bg-green-400 animate-pulse" : "bg-zinc-700"}`} />
                         AUTO-BUY {autoBuy ? "ON — agent pays automatically" : "OFF — confirm before paying"}
                       </button>
                       {isInitialized && (
-                        <span className="text-[10px] text-zinc-700 font-mono">
+                        <span className="text-[10px] text-zinc-100 font-mono">
                           System initialized ✓
                         </span>
                       )}
@@ -1604,7 +1613,7 @@ export default function Home() {
                   <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--green)" }} />
                   <span className="text-xs font-mono" style={{ color: "var(--green)" }}>LIVE</span>
                   {lookerTs && (
-                    <span className="text-zinc-700 text-[10px] font-mono hidden sm:block">
+                    <span className="text-zinc-100 text-[10px] font-mono hidden sm:block">
                       Updated {lookerTs.toLocaleTimeString()}
                     </span>
                   )}
@@ -1628,8 +1637,8 @@ export default function Home() {
                     {lookerEntries.length === 0 ? (
                       <div className="p-8 text-center">
                         <div className="text-5xl text-zinc-800 mb-4 animate-spin-slow">◈</div>
-                        <p className="text-zinc-600 text-sm font-mono">Scanning Ethereum Indexer...</p>
-                        <p className="text-zinc-700 text-xs mt-1 font-mono">Auto-refreshes every 15 seconds</p>
+                        <p className="text-white text-sm font-mono">Scanning Ethereum Indexer...</p>
+                        <p className="text-zinc-100 text-xs mt-1 font-mono">Auto-refreshes every 15 seconds</p>
                       </div>
                     ) : (
                       <div className="space-y-2 max-h-[60vh] overflow-y-auto pr-0.5">
@@ -1645,10 +1654,10 @@ export default function Home() {
                             <div className="w-2 h-2 rounded-full bg-cyan-500/50 shrink-0 mt-1.5" />
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                                <span className="text-zinc-200 text-sm group-hover:text-cyan-300 transition-colors">{entry.service}</span>
+                                <span className="text-white text-sm group-hover:text-cyan-300 transition-colors">{entry.service}</span>
                                 <span className="badge-cyan">{entry.type}</span>
                               </div>
-                              <div className="text-zinc-600 text-[10px] font-mono mb-1">
+                              <div className="text-white text-[10px] font-mono mb-1">
                                 Round {entry.round}
                               </div>
                               <div className="text-[10px] font-mono text-cyan-700 group-hover:text-cyan-400 transition-colors break-all">
@@ -1657,7 +1666,7 @@ export default function Home() {
                             </div>
                             <div className="text-right shrink-0">
                               <div className="font-orbitron font-bold text-sm" style={{ color: "var(--green)" }}>{entry.price}</div>
-                              <div className="text-[10px] text-zinc-700">ETH</div>
+                              <div className="text-[10px] text-zinc-100">ETH</div>
                               <div className="text-[9px] text-cyan-700 group-hover:text-cyan-400 mt-1.5 font-mono transition-colors">
                                 LORA ↗
                               </div>
@@ -1681,10 +1690,10 @@ export default function Home() {
                           <div key={agent.address}>
                             <div className="flex items-center justify-between mb-1">
                               <div className="flex items-center gap-2 min-w-0">
-                                <span className="text-zinc-700 text-[10px] font-mono w-4 shrink-0">#{i + 1}</span>
+                                <span className="text-zinc-100 text-[10px] font-mono w-4 shrink-0">#{i + 1}</span>
                                 <div className="min-w-0">
-                                  <span className="text-zinc-300 text-xs font-mono block">{agent.name}</span>
-                                  <span className="text-zinc-700 text-[9px] font-mono block truncate" title={agent.address}>
+                                  <span className="text-zinc-100 text-xs font-mono block">{agent.name}</span>
+                                  <span className="text-zinc-100 text-[9px] font-mono block truncate" title={agent.address}>
                                     {agent.address.slice(0, 4)}…{agent.address.slice(-4)}
                                   </span>
                                 </div>
@@ -1700,7 +1709,7 @@ export default function Home() {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-8 text-zinc-700 text-xs font-mono">
+                      <div className="text-center py-8 text-zinc-100 text-xs font-mono">
                         Run AI commerce to see<br />live reputation scores.
                       </div>
                     )}
@@ -1712,27 +1721,27 @@ export default function Home() {
                     <div className="space-y-2.5 text-xs font-mono">
                       {[
                         { k: "PHASE", v: phaseConfig.label, cls: phaseConfig.color },
-                        { k: "LISTINGS", v: String(session.listings.length), cls: "text-zinc-300" },
-                        { k: "NEGOTIATIONS", v: String(session.negotiations.length), cls: "text-zinc-300" },
+                        { k: "LISTINGS", v: String(session.listings.length), cls: "text-zinc-100" },
+                        { k: "NEGOTIATIONS", v: String(session.negotiations.length), cls: "text-zinc-100" },
                         {
                           k: "BEST DEAL",
                           v: session.selectedDeal ? `${session.selectedDeal.finalPrice} ETH` : "—",
-                          cls: session.selectedDeal ? "text-green-400" : "text-zinc-700",
+                          cls: session.selectedDeal ? "text-green-400" : "text-zinc-100",
                         },
                         {
                           k: "PAYMENT",
                           v: session.escrow.status === "released" ? "CONFIRMED" : "PENDING",
-                          cls: session.escrow.status === "released" ? "text-green-400" : "text-zinc-700",
+                          cls: session.escrow.status === "released" ? "text-green-400" : "text-zinc-100",
                         },
                       ].map(row => (
                         <div key={row.k} className="flex justify-between">
-                          <span className="text-zinc-600">{row.k}</span>
+                          <span className="text-white">{row.k}</span>
                           <span className={row.cls}>{row.v}</span>
                         </div>
                       ))}
                       {session.escrow.txId && (
                         <div className="pt-2 border-t border-[var(--border)]">
-                          <div className="text-zinc-600 mb-0.5 text-[9px]">TRANSACTION</div>
+                          <div className="text-white mb-0.5 text-[9px]">TRANSACTION</div>
                           <a
                             href={`https://lora.algokit.io/testnet/transaction/${session.escrow.txId}`}
                             target="_blank" rel="noopener noreferrer"
@@ -1756,19 +1765,19 @@ export default function Home() {
                         { k: "INDEXER", v: lookerTs ? "ACTIVE" : "CONNECTING..." },
                       ].map(row => (
                         <div key={row.k} className="flex justify-between">
-                          <span className="text-zinc-600">{row.k}</span>
+                          <span className="text-white">{row.k}</span>
                           <span className="text-cyan-400">{row.v}</span>
                         </div>
                       ))}
                     </div>
                     <div className="mt-3 pt-3 border-t border-[var(--border)] space-y-2">
-                      <div className="text-[9px] text-zinc-600 font-mono">SMART CONTRACTS</div>
+                      <div className="text-[9px] text-white font-mono">SMART CONTRACTS</div>
                       <a
                         href="https://lora.algokit.io/testnet/application/757478982"
                         target="_blank" rel="noopener noreferrer"
                         className="flex justify-between items-center text-[10px] font-mono hover:bg-cyan-500/5 rounded-lg px-2 py-1.5 -mx-2 transition-colors group"
                       >
-                        <span className="text-zinc-500 group-hover:text-zinc-300">REPUTATION</span>
+                        <span className="text-zinc-100 group-hover:text-zinc-300">REPUTATION</span>
                         <span className="text-cyan-600 group-hover:text-cyan-400 transition-colors">757478982 ↗</span>
                       </a>
                       <a
@@ -1776,7 +1785,7 @@ export default function Home() {
                         target="_blank" rel="noopener noreferrer"
                         className="flex justify-between items-center text-[10px] font-mono hover:bg-cyan-500/5 rounded-lg px-2 py-1.5 -mx-2 transition-colors group"
                       >
-                        <span className="text-zinc-500 group-hover:text-zinc-300">ZK COMMITMENT</span>
+                        <span className="text-zinc-100 group-hover:text-zinc-300">ZK COMMITMENT</span>
                         <span className="text-cyan-600 group-hover:text-cyan-400 transition-colors">757481776 ↗</span>
                       </a>
                     </div>
@@ -1797,15 +1806,15 @@ export default function Home() {
                   <span className="font-orbitron text-[6px] font-black text-cyan-400">A2A</span>
                 </div>
                 <span
-                  className="text-[11px] text-zinc-500 tracking-wide"
+                  className="text-[11px] text-zinc-100 tracking-wide"
                   style={{ fontFamily: "'Syne', sans-serif" }}
                 >
                   A2A<span className="text-cyan-600 mx-0.5">·</span>TrustMesh
                   <span className="text-cyan-600 ml-1 text-[9px]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>AI</span>
-                  <span className="text-zinc-700 ml-2 font-mono text-[9px]">// ETHEREUM TESTNET</span>
+                  <span className="text-zinc-100 ml-2 font-mono text-[9px]">// ETHEREUM TESTNET</span>
                 </span>
               </div>
-              <div className="flex items-center gap-6 text-[10px] text-zinc-700 font-mono">
+              <div className="flex items-center gap-6 text-[10px] text-zinc-100 font-mono">
                 <a
                   href="https://lora.algokit.io/testnet/application/757478982"
                   target="_blank" rel="noopener noreferrer"
@@ -1853,7 +1862,7 @@ export default function Home() {
             </h2>
 
             {/* Detail */}
-            <p className="text-zinc-400 text-sm font-mono mb-1">
+            <p className="text-white text-sm font-mono mb-1">
               Your wallet does not have enough ETH to complete this transaction.
             </p>
 
@@ -1862,24 +1871,24 @@ export default function Home() {
               style={{ background: "rgba(255,51,102,0.06)", borderColor: "rgba(255,51,102,0.2)" }}
             >
               <div className="flex justify-between">
-                <span className="text-zinc-500">Required</span>
+                <span className="text-zinc-100">Required</span>
                 <span className="text-red-400 font-bold">{insufficientModal.needed.toFixed(4)} ETH</span>
               </div>
               {insufficientModal.have > 0 && (
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">Available</span>
-                  <span className="text-zinc-300">{insufficientModal.have.toFixed(4)} ETH</span>
+                  <span className="text-zinc-100">Available</span>
+                  <span className="text-zinc-100">{insufficientModal.have.toFixed(4)} ETH</span>
                 </div>
               )}
               <div className="flex justify-between border-t border-zinc-800 pt-2">
-                <span className="text-zinc-500">Shortfall</span>
+                <span className="text-zinc-100">Shortfall</span>
                 <span className="text-red-300">
                   {(insufficientModal.needed - insufficientModal.have).toFixed(4)} ETH
                 </span>
               </div>
             </div>
 
-            <p className="text-zinc-600 text-xs font-mono mb-6">
+            <p className="text-white text-xs font-mono mb-6">
               Add ETH to your wallet via an exchange or faucet, or fund the Agent Vault.
             </p>
 

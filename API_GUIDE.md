@@ -1,6 +1,6 @@
 # API Endpoint Guide
 
-Complete reference for all API endpoints in the A2A Agentic Commerce Framework. These endpoints are designed for frontend integration with wallet authentication via Pera, Defly, or Lute.
+Complete reference for all API endpoints in the A2A TrustMesh AI Framework. These endpoints are designed for frontend integration with wallet authentication via Pera, Defly, or Lute.
 
 ---
 
@@ -56,7 +56,7 @@ Build an unsigned payment transaction for the user's wallet to sign.
   "senderAddress": "AYIFKOGN...",
   "receiverAddress": "67YHITMF...",
   "amountAlgo": 0.33,
-  "note": "A2A Commerce | SME Cloud Storage | 0.33 ALGO"
+  "note": "A2A TrustMesh AI | SME Cloud Storage | 0.33 ALGO"
 }
 ```
 
@@ -313,7 +313,7 @@ Build an unsigned transaction to submit feedback for an agent. Wallet signs it.
 
 ## Commerce Flow Endpoints
 
-These power the automated A2A commerce pipeline. They use server-side accounts for the demo flow.
+These power the automated A2A TrustMesh AI pipeline. They use server-side accounts for the demo flow.
 
 ### `POST /api/intent`
 

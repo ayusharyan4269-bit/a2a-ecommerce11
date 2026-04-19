@@ -26,7 +26,7 @@ function AgentAvatar({ agent }: { agent: AgentAction["agent"] }) {
 
 function TypeBadge({ type }: { type: AgentAction["type"] }) {
   const config: Record<string, { bg: string; text: string }> = {
-    thinking: { bg: "bg-zinc-700/50", text: "text-zinc-400" },
+    thinking: { bg: "bg-zinc-700/50", text: "text-white" },
     message: { bg: "bg-blue-500/20", text: "text-blue-400" },
     negotiation: { bg: "bg-amber-500/20", text: "text-amber-400" },
     transaction: { bg: "bg-purple-500/20", text: "text-purple-400" },
@@ -56,7 +56,7 @@ function renderContent(content: string) {
       return (
         <code
           key={i}
-          className="px-1 py-0.5 bg-zinc-800 rounded text-xs font-mono text-zinc-300"
+          className="px-1 py-0.5 bg-zinc-800 rounded text-xs font-mono text-zinc-100"
         >
           {part.slice(1, -1)}
         </code>
@@ -76,10 +76,10 @@ function ChatBubble({ action }: { action: AgentAction }) {
         <div className="max-w-lg px-4 py-2 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
           <div className="flex items-center gap-2 mb-1">
             <AgentAvatar agent="system" />
-            <span className="text-xs text-zinc-500">{action.agentName}</span>
+            <span className="text-xs text-zinc-100">{action.agentName}</span>
             <TypeBadge type={action.type} />
           </div>
-          <p className="text-xs text-zinc-400 whitespace-pre-line leading-relaxed">
+          <p className="text-xs text-white whitespace-pre-line leading-relaxed">
             {renderContent(action.content)}
           </p>
         </div>
@@ -96,11 +96,11 @@ function ChatBubble({ action }: { action: AgentAction }) {
         className={`max-w-[75%] ${isUser ? "items-end" : "items-start"}`}
       >
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs font-medium text-zinc-400">
+          <span className="text-xs font-medium text-white">
             {action.agentName}
           </span>
           <TypeBadge type={action.type} />
-          <span className="text-[10px] text-zinc-600">
+          <span className="text-[10px] text-white">
             {new Date(action.timestamp).toLocaleTimeString()}
           </span>
         </div>
@@ -114,13 +114,13 @@ function ChatBubble({ action }: { action: AgentAction }) {
                   ? "bg-purple-500/10 border border-purple-500/15 text-purple-100"
                   : action.type === "result"
                     ? "bg-emerald-500/10 border border-emerald-500/15 text-emerald-100"
-                    : "bg-zinc-800/50 border border-zinc-700/30 text-zinc-300"
+                    : "bg-zinc-800/50 border border-zinc-700/30 text-zinc-100"
           }`}
         >
           {renderContent(action.content)}
           {action.data?.price !== undefined && (
             <div className="mt-2 pt-2 border-t border-white/5 flex items-center gap-2">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-wider">
+              <span className="text-[10px] text-zinc-100 uppercase tracking-wider">
                 Price
               </span>
               <span className="text-sm font-semibold text-white">
@@ -149,14 +149,14 @@ export function ChatInterface({ actions }: ChatInterfaceProps) {
             <h2 className="text-2xl font-semibold text-zinc-100 tracking-tight">
               What do you want to buy?
             </h2>
-            <p className="text-sm text-zinc-500 leading-relaxed max-w-md mx-auto">
+            <p className="text-sm text-zinc-100 leading-relaxed max-w-md mx-auto">
               Your buyer agent will search on-chain listings via the Algorand Indexer,
               verify sellers with ZK commitments, negotiate the best price, and execute
               payment — all autonomously.
             </p>
           </div>
           <div className="flex flex-col items-center gap-3 pt-3">
-            <div className="flex items-center gap-4 text-[10px] text-zinc-600">
+            <div className="flex items-center gap-4 text-[10px] text-white">
               <span className="flex items-center gap-1.5">
                 <span className="w-1 h-1 rounded-full bg-violet-500" />
                 On-Chain ZK

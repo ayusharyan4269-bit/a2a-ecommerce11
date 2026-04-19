@@ -49,7 +49,7 @@ export function IntentInput({ onSubmit, isLoading, phase }: IntentInputProps) {
             <button
               key={s}
               onClick={() => handleSuggestion(s)}
-              className="shrink-0 px-3 py-1.5 rounded-full text-xs bg-zinc-800/50 text-zinc-400 border border-zinc-700/50 hover:bg-zinc-700/50 hover:text-zinc-300 transition-colors"
+              className="shrink-0 px-3 py-1.5 rounded-full text-xs bg-zinc-800/50 text-white border border-zinc-700/50 hover:bg-zinc-700/50 hover:text-zinc-300 transition-colors"
             >
               {s}
             </button>
@@ -68,7 +68,7 @@ export function IntentInput({ onSubmit, isLoading, phase }: IntentInputProps) {
               : "Describe what you want to buy (e.g., 'Buy cloud storage under 100 ALGO')"
           }
           disabled={isDisabled}
-          className="flex-1 bg-zinc-800/50 border border-zinc-700/50 rounded-xl px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all disabled:opacity-50"
+          className="flex-1 bg-zinc-800/50 border border-zinc-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all disabled:opacity-50"
         />
         <button
           type="submit"

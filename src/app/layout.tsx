@@ -3,7 +3,7 @@ import "./globals.css";
 import { WalletProvider } from "@/hooks/use-wallet";
 
 export const metadata: Metadata = {
-  title: "A2A // Agentic Commerce",
+  title: "A2A TrustMesh AI",
   description: "Autonomous AI agents discover, negotiate, and transact on Ethereum. On-chain ZK · x402 protocol · Real ETH.",
 };
 

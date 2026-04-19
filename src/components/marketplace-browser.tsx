@@ -28,8 +28,8 @@ function ListingRow({ listing, index }: { listing: OnChainListing; index: number
               </span>
             )}
           </div>
-          <p className="text-xs text-zinc-500 line-clamp-1 mb-2">{listing.description}</p>
-          <div className="flex items-center gap-3 text-[10px] text-zinc-600">
+          <p className="text-xs text-zinc-100 line-clamp-1 mb-2">{listing.description}</p>
+          <div className="flex items-center gap-3 text-[10px] text-white">
             <span className="uppercase tracking-wider">{listing.type}</span>
             <span>Round {listing.round}</span>
             <a
@@ -44,7 +44,7 @@ function ListingRow({ listing, index }: { listing: OnChainListing; index: number
         </div>
         <div className="text-right shrink-0">
           <p className="text-lg font-bold text-zinc-100">{listing.price}</p>
-          <p className="text-[10px] text-zinc-500">ALGO</p>
+          <p className="text-[10px] text-zinc-100">ALGO</p>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@ export function MarketplaceBrowser() {
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-300 focus:border-zinc-600 transition-colors"
+          className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 focus:border-zinc-600 transition-colors"
         >
           {SERVICE_TYPES.map((t) => (
             <option key={t.value} value={t.value}>{t.label}</option>
@@ -91,11 +91,11 @@ export function MarketplaceBrowser() {
         <button
           onClick={fetchListings}
           disabled={isLoading}
-          className="px-4 py-2 rounded-lg bg-zinc-800 text-xs text-zinc-300 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
+          className="px-4 py-2 rounded-lg bg-zinc-800 text-xs text-zinc-100 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
         >
           {isLoading ? "Searching..." : "Search Indexer"}
         </button>
-        <span className="text-[10px] text-zinc-600 ml-auto">
+        <span className="text-[10px] text-white ml-auto">
           {listings.length} listing{listings.length !== 1 ? "s" : ""} found
         </span>
       </div>
@@ -117,7 +117,7 @@ export function MarketplaceBrowser() {
       )}
 
       {!isLoading && hasSearched && listings.length === 0 && (
-        <div className="text-center py-12 text-zinc-600 text-sm">
+        <div className="text-center py-12 text-white text-sm">
           No listings found on-chain. Run the pipeline first to seed data.
         </div>
       )}
