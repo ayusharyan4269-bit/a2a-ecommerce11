@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
+  async rewrites() {
+    return [
+      { source: "/sell", destination: "/" },
+      { source: "/vault", destination: "/" },
+      { source: "/marketplace", destination: "/" },
+      { source: "/looker", destination: "/" },
+    ];
+  },
 };
 
 export default nextConfig;

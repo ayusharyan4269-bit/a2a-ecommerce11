@@ -11,13 +11,13 @@ export function NegotiationTimeline({ sessions }: NegotiationTimelineProps) {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+      <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
         x402 Negotiation Log
       </h3>
       {sessions.map((session) => (
         <div key={session.listingTxId} className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-zinc-300">{session.sellerName}</span>
+            <span className="text-xs font-medium text-zinc-100">{session.sellerName}</span>
             <div className="flex items-center gap-1.5">
               {session.zkVerified && (
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400">ZK</span>
@@ -53,13 +53,13 @@ export function NegotiationTimeline({ sessions }: NegotiationTimelineProps) {
                   }`}>
                     {msg.action}
                   </span>
-                  <span className="text-[10px] text-zinc-500">{msg.from}</span>
-                  <span className="text-[10px] text-zinc-300 font-medium">{msg.payload.price} ALGO</span>
+                  <span className="text-[10px] text-zinc-100">{msg.from}</span>
+                  <span className="text-[10px] text-zinc-100 font-medium">{msg.payload.price} ALGO</span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-[10px] text-zinc-600 pt-1">
+          <div className="flex justify-between text-[10px] text-white pt-1">
             <span>{session.originalPrice} → {session.finalPrice} ALGO</span>
             {session.accepted && (
               <span className="text-emerald-400">

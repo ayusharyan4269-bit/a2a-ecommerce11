@@ -104,19 +104,19 @@ export function ReputationPanel() {
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Query Reputation</h3>
+        <h3 className="text-xs font-semibold text-white uppercase tracking-wider">Query Reputation</h3>
         <div className="flex gap-2">
           <input
             type="text"
             value={queryAddr}
             onChange={(e) => setQueryAddr(e.target.value)}
             placeholder={address ? `${address.slice(0, 16)}... (your wallet)` : "Ethereum address"}
-            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-300 placeholder-zinc-600 focus:border-zinc-600 transition-colors"
+            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 transition-colors"
           />
           <button
             onClick={queryReputation}
             disabled={isQuerying}
-            className="px-4 py-2 rounded-lg bg-zinc-800 text-xs text-zinc-300 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-lg bg-zinc-800 text-xs text-zinc-100 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
           >
             {isQuerying ? "..." : "Query"}
           </button>
@@ -125,8 +125,8 @@ export function ReputationPanel() {
         {repData && (
           <div className="border border-zinc-800/60 rounded-xl p-4 space-y-3 animate-fade-in-up">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-zinc-500 font-mono">{repData.agent.slice(0, 12)}...{repData.agent.slice(-6)}</span>
-              <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${repData.isRegistered ? "bg-emerald-500/10 text-emerald-400" : "bg-zinc-800 text-zinc-500"}`}>
+              <span className="text-xs text-zinc-100 font-mono">{repData.agent.slice(0, 12)}...{repData.agent.slice(-6)}</span>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${repData.isRegistered ? "bg-emerald-500/10 text-emerald-400" : "bg-zinc-800 text-zinc-100"}`}>
                 {repData.isRegistered ? "Registered" : "Not Registered"}
               </span>
             </div>
@@ -135,11 +135,11 @@ export function ReputationPanel() {
                 <div>
                   <div className="flex items-baseline justify-between mb-1">
                     <span className="text-2xl font-bold text-zinc-100">{(repData.reputation / 100).toFixed(1)}</span>
-                    <span className="text-[10px] text-zinc-500">{repData.feedbackCount} review{repData.feedbackCount !== 1 ? "s" : ""}</span>
+                    <span className="text-[10px] text-zinc-100">{repData.feedbackCount} review{repData.feedbackCount !== 1 ? "s" : ""}</span>
                   </div>
                   <ScoreBar score={repData.reputation / 100} />
                 </div>
-                <div className="flex items-center gap-3 text-[10px] text-zinc-500">
+                <div className="flex items-center gap-3 text-[10px] text-zinc-100">
                   <span>Total Score: {repData.totalScore}</span>
                   <span>{repData.isActive ? "Active" : "Inactive"}</span>
                 </div>
@@ -152,24 +152,24 @@ export function ReputationPanel() {
       {address && (
         <>
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Register as Agent</h3>
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider">Register as Agent</h3>
             <button
               onClick={registerAgent}
               disabled={isActing}
-              className="w-full py-2.5 rounded-lg bg-zinc-800 text-xs text-zinc-300 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
+              className="w-full py-2.5 rounded-lg bg-zinc-800 text-xs text-zinc-100 hover:bg-zinc-700 border border-zinc-700/50 transition-colors disabled:opacity-50"
             >
               {isActing ? "Signing..." : "Register My Wallet"}
             </button>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Submit Feedback</h3>
+            <h3 className="text-xs font-semibold text-white uppercase tracking-wider">Submit Feedback</h3>
             <input
               type="text"
               value={feedback.agentAddr}
               onChange={(e) => setFeedback((prev) => ({ ...prev, agentAddr: e.target.value }))}
               placeholder="Agent address to review"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-300 placeholder-zinc-600 focus:border-zinc-600 transition-colors"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-xs text-zinc-100 placeholder-zinc-600 focus:border-zinc-600 transition-colors"
             />
             <div className="flex items-center gap-3">
               <input
@@ -180,7 +180,7 @@ export function ReputationPanel() {
                 onChange={(e) => setFeedback((prev) => ({ ...prev, score: Number(e.target.value) }))}
                 className="flex-1 accent-blue-500"
               />
-              <span className="text-sm font-bold text-zinc-200 w-10 text-right">{feedback.score}</span>
+              <span className="text-sm font-bold text-white w-10 text-right">{feedback.score}</span>
             </div>
             <button
               onClick={submitFeedback}
@@ -195,10 +195,10 @@ export function ReputationPanel() {
 
       {actionLog.length > 0 && (
         <div className="space-y-1.5">
-          <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Activity Log</h3>
+          <h3 className="text-xs font-semibold text-white uppercase tracking-wider">Activity Log</h3>
           <div className="max-h-40 overflow-y-auto scrollbar-thin space-y-1 bg-zinc-900/50 rounded-lg p-3 border border-zinc-800/40">
             {actionLog.map((entry, i) => (
-              <p key={i} className="text-[10px] font-mono text-zinc-500 leading-relaxed">{entry}</p>
+              <p key={i} className="text-[10px] font-mono text-zinc-100 leading-relaxed">{entry}</p>
             ))}
           </div>
         </div>
