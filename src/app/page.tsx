@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { WalletConnect } from "@/components/wallet-connect";
 import { ScrollAnimation } from "@/components/scroll-animation";
-import A2AEscrowArtifact from "../../artifacts/contracts/A2AEscrow.sol/A2AEscrow.json";
+import A2AEscrowArtifact from "@/lib/contracts/A2AEscrow.json";
 import type {
   SessionState,
   AgentAction,
