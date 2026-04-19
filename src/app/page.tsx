@@ -592,25 +592,49 @@ export default function Home() {
       if (!signer || !address) throw new Error("Wallet not connected");
 
       addActions([mkAction(`Preparing ${deal.finalPrice} ETH payment — awaiting wallet signature...`, "transaction")]);
+      const escrowAddr = process.env.NEXT_PUBLIC_ESCROW_ADDRESS;
+      const HARDHAT_DEFAULT = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+      const ZERO_ADDR       = "0x0000000000000000000000000000000000000000";
+      const useEscrow = escrowAddr &&
+        escrowAddr !== HARDHAT_DEFAULT &&
+        escrowAddr !== ZERO_ADDR &&
+        ethers.isAddress(escrowAddr);
 
-      const contract = new ethers.Contract(
-        process.env.NEXT_PUBLIC_ESCROW_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        A2AEscrowArtifact.abi,
-        signer
-      );
+      let txHash: string;
+      let blockNumber: number;
 
-      const tx = await contract.createEscrow(
-        deal.listingTxId,
-        deal.sellerAddress,
-        { value: ethers.parseEther(deal.finalPrice.toString()) }
-      );
+      if (useEscrow) {
+        const contract = new ethers.Contract(escrowAddr!, A2AEscrowArtifact.abi, signer);
+        const tx = await contract.createEscrow(
+          deal.listingTxId,
+          deal.ipfsHash || "",
+          deal.sellerAddress,
+          { value: ethers.parseEther(deal.finalPrice.toString()) }
+        );
+        addActions([mkAction("Transaction signed. Broadcasting to Ethereum network...", "transaction")]);
+        const receipt = await tx.wait();
+        if (!receipt) throw new Error("Transaction verification failed");
+        txHash = tx.hash;
+        blockNumber = receipt.blockNumber;
+      } else {
+        // ── Direct P2P transfer path (no contract deployed yet) ─────────────
+        // Seller address comes from the listing's stored wallet — not from any input
+        if (!deal.sellerAddress || !ethers.isAddress(deal.sellerAddress)) {
+          throw new Error("Invalid seller address in listing — cannot send payment");
+        }
+        addActions([mkAction("Sending ETH directly to seller wallet (no escrow contract deployed)...", "transaction")]);
+        const tx = await signer.sendTransaction({
+          to:    deal.sellerAddress,
+          value: ethers.parseEther(deal.finalPrice.toString()),
+        });
+        addActions([mkAction("Transaction signed. Broadcasting to Ethereum network...", "transaction")]);
+        const receipt = await tx.wait();
+        if (!receipt) throw new Error("Transaction verification failed");
+        txHash = tx.hash;
+        blockNumber = receipt.blockNumber;
+      }
 
-      addActions([mkAction("Transaction signed. Broadcasting to Ethereum network...", "transaction")]);
-
-      const receipt = await tx.wait();
-      if (!receipt) throw new Error("Transaction verification failed");
-
-      // 2. Fetch Credentials (X402 Delivery)
+      // 2. Fetch Credentials
       addActions([mkAction(`Escrow Deposit Verified. Prompting Delivery Agent for Credentials...`, "verification", "system")]);
       const result = await fetch("/api/execute", {
         method: "POST",
@@ -633,29 +657,31 @@ export default function Home() {
 
       addActions([mkAction(`✅ FAIR EXCHANGE VERIFIED: Delivery Agent hash matches initial ZK commitment!\n\nCredentials unlocked:\nUser: ${data.credentials.username}\nPass: ${deliveredPass}`, "result")]);
 
-      // 3. Final Escrow Release
-      addActions([mkAction(`Prompting wallet to authorize mathematical Release of Escrow Funds to seller...`, "transaction")]);
-
-      const releaseTx = await contract.releaseFunds(deal.listingTxId);
-      addActions([mkAction(`Release signed. Broadcasting...`, "transaction")]);
-
-      const releaseReceipt = await releaseTx.wait();
+      // 3. Release escrow if contract was used
+      if (useEscrow) {
+        addActions([mkAction(`Prompting wallet to authorize mathematical Release of Escrow Funds to seller...`, "transaction")]);
+        const contract = new ethers.Contract(escrowAddr!, A2AEscrowArtifact.abi, signer);
+        const releaseTx = await contract.releaseFunds(deal.listingTxId);
+        addActions([mkAction(`Release signed. Broadcasting...`, "transaction")]);
+        const releaseReceipt = await releaseTx.wait();
+        blockNumber = releaseReceipt.blockNumber;
+      }
 
       setSession(prev => ({
         ...prev,
         escrow: {
-          status: "released",
-          buyerAddress: address,
-          sellerAddress: deal.sellerAddress,
-          amount: deal.finalPrice,
-          txId: tx.hash,
-          confirmedRound: receipt.blockNumber,
+          status:          "released",
+          buyerAddress:    address,
+          sellerAddress:   deal.sellerAddress,
+          amount:          deal.finalPrice,
+          txId:            txHash,
+          confirmedRound:  blockNumber,
         },
         credentials: data.credentials,
       }));
 
       addActions([mkAction(
-        `ESCROW CONTRACT RESOLVED\nFunds Transferred to Seller: ${deal.finalPrice} ETH\nBlock: ${releaseReceipt.blockNumber}\n\n✅ Transaction confirmed! View transaction history on Etherscan:\nhttps://sepolia.etherscan.io/tx/${releaseTx.hash}`,
+        `TRANSACTION RESOLVED\nFunds Transferred to Seller: ${deal.finalPrice} ETH\nBlock: ${blockNumber}\n\n✅ Transaction confirmed! View on Etherscan:\nhttps://sepolia.etherscan.io/tx/${txHash}`,
         "transaction",
       )]);
 

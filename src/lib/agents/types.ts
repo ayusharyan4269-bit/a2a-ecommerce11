@@ -1,5 +1,6 @@
 export interface OnChainListing {
   id?: string;          // DB listing id (new)
+  ipfsHash?: string;    // IPFS CID
   txId: string;
   sender: string;
   type: string;
@@ -39,6 +40,7 @@ export interface X402Message {
 
 export interface NegotiationSession {
   listingTxId: string;
+  ipfsHash?: string;    // IPFS CID
   sellerAddress: string;
   sellerName: string;
   service: string;
