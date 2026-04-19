@@ -26,7 +26,8 @@ model Listing {
   // Cryptographic Properties
   signature     String?
   zkCommitment  String?
-  
+  ipfsHash      String?   // IPFS CID from Pinata — links wallet address to stored item
+
   // Date tracking matches existing DB format
   timestamp     Float
   createdAt     String

@@ -1,7 +1,6 @@
 node_modules/
 .next/
 
-
 *.log
 dist/
 .DS_Store
@@ -11,3 +10,15 @@ tsconfig.tsbuildinfo
 .vercel
 
 /src/generated/prisma
+
+# ── Environment & Secrets (NEVER commit these) ──────────────────────────────
+.env
+.env.local
+.env.*.local
+.vault-key
+.vault-state.json
+
+# ── Hardhat build artifacts (generated, not needed in git) ─────────────────
+artifacts/
+cache/
+typechain-types/

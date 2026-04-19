@@ -22,6 +22,7 @@ export interface Listing {
   notes?: string | null;
   signature?: string | null;
   zkCommitment?: string | null;
+  ipfsHash?: string | null;  // IPFS CID — ties the listing item to the seller's wallet permanently
   timestamp: number;
   createdAt: string;
 }
@@ -49,7 +50,7 @@ export async function getAllListings(filters?: {
     orderBy: { timestamp: "desc" },
   });
 
-  // Return newest first, strip sensitive credentials from public response
+  // Return newest first, strip only sensitive credentials
   return listings.map(({ username: _u, password: _p, ...safe }) => safe);
 }
 

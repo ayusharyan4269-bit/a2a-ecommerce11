@@ -115,6 +115,7 @@ function toOnChainListing(l: any) {
     description: l.description ?? "",
     timestamp: l.timestamp ?? 0,
     zkCommitment: l.zkCommitment ?? null,
+    ipfsHash: l.ipfsHash ?? null,    // IPFS CID — the permanent link between seller wallet and item
     round: 0,
     sellerName: l.service ?? "Agent",
   };

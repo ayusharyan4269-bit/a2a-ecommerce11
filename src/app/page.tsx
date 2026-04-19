@@ -185,7 +185,7 @@ export default function Home() {
   const [purchasedCreds, setPurchasedCreds] = useState<{
     username: string; password: string; productType?: string; notes?: string; service?: string;
   } | null>(null);
-  const [sellStatus, setSellStatus] = useState<{ success: boolean; txId?: string; error?: string } | null>(null);
+  const [sellStatus, setSellStatus] = useState<{ success: boolean; txId?: string; ipfsHash?: string; error?: string } | null>(null);
   const [isSelling, setIsSelling] = useState(false);
 
   // Marketplace browse
@@ -720,14 +720,30 @@ export default function Home() {
       const signature = await signer.signMessage(message);
       const txHash = signature.slice(0, 66);
 
-      // Save to server (non-blocking)
+      // Pin to IPFS first
+      let ipfsHash = "";
+      try {
+        const pinRes = await fetch('/api/ipfs/pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(listingPayload)
+        });
+        if (pinRes.ok) {
+          const pinData = await pinRes.json();
+          ipfsHash = pinData.IpfsHash || "";
+        }
+      } catch (err) {
+        console.error("IPFS Pinning failed:", err);
+      }
+
+      // Save to server (non-blocking) with the IPFS CID
       fetch('/api/listings/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...listingPayload, username: sellForm.username, password: sellForm.password, notes: sellForm.notes, signature }),
+        body: JSON.stringify({ ...listingPayload, username: sellForm.username, password: sellForm.password, notes: sellForm.notes, signature, ipfsHash }),
       }).catch(() => { });
 
-      setSellStatus({ success: true, txId: txHash });
+      setSellStatus({ success: true, txId: txHash, ipfsHash });
       setSellForm({ service: "", type: "cloud-storage", price: "", description: "", username: "", password: "", productType: "cloud-storage", notes: "" });
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Listing failed";
@@ -1087,8 +1103,13 @@ export default function Home() {
                       {sellStatus.success ? (
                         <>
                           <div className="font-bold mb-1 font-orbitron text-xs tracking-widest">✓ LISTING SIGNED & SAVED</div>
-                          <div className="text-[11px] opacity-80 font-mono">
-                            SIG: {sellStatus.txId?.slice(0, 20)}...
+                          <div className="text-[11px] opacity-80 break-all space-y-1">
+                            <div>SIG: {sellStatus.txId?.slice(0, 20)}...</div>
+                            {sellStatus.ipfsHash && (
+                              <div className="text-[11px] text-[var(--cyan)]">
+                                IPFS: ipfs://{sellStatus.ipfsHash}
+                              </div>
+                            )}
                           </div>
                           <div className="text-[10px] opacity-60 mt-1">
                             Proof-of-listing signature stored on-device.{" "}

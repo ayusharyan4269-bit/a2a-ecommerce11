@@ -2,84 +2,86 @@
 pragma solidity ^0.8.20;
 
 contract A2AEscrow {
-    enum EscrowState { AWAITING_PAYMENT, AWAITING_DELIVERY, COMPLETE, REFUNDED }
+    enum EscrowState { AWAITING_DELIVERY, COMPLETE, REFUNDED }
 
     struct Escrow {
-        string listingId;
+        string  listingId;   // DB listing UUID
+        string  ipfsHash;    // Pinata CID — permanent seller-wallet-to-item link
         address payable seller;
         address payable buyer;
         uint256 amount;
         EscrowState state;
-        bool isAgentVerified;
     }
 
-    // Mapping from listingId to Escrow details
     mapping(string => Escrow) public escrows;
 
-    event EscrowCreated(string indexed listingId, address indexed buyer, address indexed seller, uint256 amount);
+    event EscrowCreated(
+        string  indexed listingId,
+        string          ipfsHash,
+        address indexed buyer,
+        address indexed seller,
+        uint256         amount
+    );
     event EscrowReleased(string indexed listingId, address indexed seller, uint256 amount);
-    event EscrowRefunded(string indexed listingId, address indexed buyer, uint256 amount);
+    event EscrowRefunded(string indexed listingId, address indexed buyer,  uint256 amount);
 
-    /**
-     * @dev Buyer deposits ETH to initiate the escrow for a specific listing
-     */
-    function createEscrow(string memory _listingId, address payable _seller) external payable {
-        require(msg.value > 0, "Must deposit ETH to create escrow");
-        require(escrows[_listingId].buyer == address(0), "Escrow for this listing already exists");
+    // ── Buyer locks ETH against a specific IPFS-pinned listing ──────────────────
+    function createEscrow(
+        string  memory _listingId,
+        string  memory _ipfsHash,
+        address payable _seller
+    ) external payable {
+        require(msg.value > 0,                                    "Must send ETH");
+        require(_seller != address(0),                            "Invalid seller");
+        require(_seller != msg.sender,                            "Seller cannot be buyer");
+        require(escrows[_listingId].buyer == address(0),          "Escrow already exists for this listing");
 
         escrows[_listingId] = Escrow({
             listingId: _listingId,
-            seller: _seller,
-            buyer: payable(msg.sender),
-            amount: msg.value,
-            state: EscrowState.AWAITING_DELIVERY,
-            isAgentVerified: false
+            ipfsHash:  _ipfsHash,
+            seller:    _seller,
+            buyer:     payable(msg.sender),
+            amount:    msg.value,
+            state:     EscrowState.AWAITING_DELIVERY
         });
 
-        emit EscrowCreated(_listingId, msg.sender, _seller, msg.value);
+        emit EscrowCreated(_listingId, _ipfsHash, msg.sender, _seller, msg.value);
     }
 
-    /**
-     * @dev Buyer or system agent releases the funds to the seller after verifying credentials
-     */
+    // ── Buyer confirms delivery → funds released to the REAL seller ──────────────
     function releaseFunds(string memory _listingId) external {
-        Escrow storage escrow = escrows[_listingId];
-        require(escrow.state == EscrowState.AWAITING_DELIVERY, "Invalid state for release");
-        require(msg.sender == escrow.buyer, "Only the buyer can release funds");
+        Escrow storage e = escrows[_listingId];
+        require(e.state == EscrowState.AWAITING_DELIVERY, "Not awaiting delivery");
+        require(msg.sender == e.buyer,                     "Only buyer can release");
 
-        escrow.state = EscrowState.COMPLETE;
-        
-        // Transfer funds to the seller
-        (bool success, ) = escrow.seller.call{value: escrow.amount}("");
-        require(success, "Transfer to seller failed");
+        e.state = EscrowState.COMPLETE;
 
-        emit EscrowReleased(_listingId, escrow.seller, escrow.amount);
+        (bool ok, ) = e.seller.call{value: e.amount}("");
+        require(ok, "Transfer to seller failed");
+
+        emit EscrowReleased(_listingId, e.seller, e.amount);
     }
 
-    /**
-     * @dev Refund logic if the listing credentials are fake or agent rejects it
-     */
+    // ── Buyer requests refund (seller/buyer can both trigger) ────────────────────
     function refund(string memory _listingId) external {
-        Escrow storage escrow = escrows[_listingId];
-        require(escrow.state == EscrowState.AWAITING_DELIVERY, "Invalid state for refund");
-        // For simplicity in this iteration, only the seller can refund or we can have an agent doing it. 
-        // We'll allow the buyer to request a refund, but typically it requires seller approval.
-        // For the demo, we'll allow either party to refund the buyer if something goes wrong.
-        require(msg.sender == escrow.seller || msg.sender == escrow.buyer, "Unauthorized refund request");
+        Escrow storage e = escrows[_listingId];
+        require(e.state == EscrowState.AWAITING_DELIVERY,              "Not refundable");
+        require(msg.sender == e.seller || msg.sender == e.buyer,       "Unauthorized");
 
-        escrow.state = EscrowState.REFUNDED;
+        e.state = EscrowState.REFUNDED;
 
-        // Refund the buyer
-        (bool success, ) = escrow.buyer.call{value: escrow.amount}("");
-        require(success, "Refund transfer failed");
+        (bool ok, ) = e.buyer.call{value: e.amount}("");
+        require(ok, "Refund failed");
 
-        emit EscrowRefunded(_listingId, escrow.buyer, escrow.amount);
+        emit EscrowRefunded(_listingId, e.buyer, e.amount);
     }
 
-    /**
-     * @dev Fallback to reject accidental direct payments
-     */
+    // ── View helper ──────────────────────────────────────────────────────────────
+    function getEscrow(string memory _listingId) external view returns (Escrow memory) {
+        return escrows[_listingId];
+    }
+
     receive() external payable {
-        revert("Use createEscrow to deposit funds");
+        revert("Use createEscrow()");
     }
 }

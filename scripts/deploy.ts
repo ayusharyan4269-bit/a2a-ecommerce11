@@ -1,30 +1,72 @@
 import hre from "hardhat";
-const { ethers } = hre;
+import fs from "fs";
+import path from "path";
+
+const { ethers, network } = hre;
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const [deployer] = await ethers.getSigners();
+  const balance = await ethers.provider.getBalance(deployer.address);
 
-  const lockedAmount = ethers.parseEther("0.001");
+  console.log("─────────────────────────────────────────────");
+  console.log(`Network  : ${network.name}`);
+  console.log(`Deployer : ${deployer.address}`);
+  console.log(`Balance  : ${ethers.formatEther(balance)} ETH`);
+  console.log("─────────────────────────────────────────────\n");
 
-  console.log(
-    `Deploying A2AEscrow starting at ${currentTimestampInSeconds}...`
-  );
+  if (balance === 0n) {
+    throw new Error("Deployer wallet has 0 ETH. Fund it on Sepolia before deploying.");
+  }
 
-  const a2aEscrow = await ethers.deployContract("A2AEscrow", [], {
-    value: 0,
-  });
+  // ── Deploy A2AMarket ────────────────────────────────────────────────────────
+  console.log("Deploying A2AMarket...");
+  const Market = await ethers.getContractFactory("A2AMarket");
+  const market  = await Market.deploy();
+  await market.waitForDeployment();
 
-  await a2aEscrow.waitForDeployment();
+  const marketAddr = await market.getAddress();
+  console.log(`✅ A2AMarket  → ${marketAddr}`);
 
-  console.log(
-    `A2AEscrow deployed to ${a2aEscrow.target}`
-  );
+  // ── Deploy A2AEscrow (legacy, keep for backward compat) ─────────────────────
+  console.log("Deploying A2AEscrow (legacy)...");
+  const Escrow = await ethers.getContractFactory("A2AEscrow");
+  const escrow  = await Escrow.deploy();
+  await escrow.waitForDeployment();
+
+  const escrowAddr = await escrow.getAddress();
+  console.log(`✅ A2AEscrow  → ${escrowAddr}`);
+
+  // ── Auto-patch .env.local ───────────────────────────────────────────────────
+  const envPath = path.join(__dirname, "../.env.local");
+  let env = fs.existsSync(envPath) ? fs.readFileSync(envPath, "utf8") : "";
+
+  const patch = (key: string, val: string) => {
+    const line = `${key}=${val}`;
+    env = env.includes(key)
+      ? env.replace(new RegExp(`${key}=.*`), line)
+      : env + `\n${line}`;
+  };
+
+  patch("NEXT_PUBLIC_MARKET_ADDRESS",  marketAddr);
+  patch("NEXT_PUBLIC_ESCROW_ADDRESS",  escrowAddr);
+
+  fs.writeFileSync(envPath, env.trimEnd() + "\n");
+
+  console.log("\n📝 .env.local updated:");
+  console.log(`   NEXT_PUBLIC_MARKET_ADDRESS  = ${marketAddr}`);
+  console.log(`   NEXT_PUBLIC_ESCROW_ADDRESS  = ${escrowAddr}`);
+
+  // ── Etherscan verification hint ─────────────────────────────────────────────
+  if (network.name === "sepolia") {
+    console.log("\n🔍 Verify contracts on Etherscan:");
+    console.log(`   npx hardhat verify --network sepolia ${marketAddr}`);
+    console.log(`   npx hardhat verify --network sepolia ${escrowAddr}`);
+  }
+
+  console.log("\n✨ Deployment complete. Restart your dev server to activate.\n");
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
+main().catch((err) => {
+  console.error(err);
   process.exitCode = 1;
 });

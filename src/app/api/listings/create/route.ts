@@ -6,7 +6,7 @@ import { createHash, randomBytes } from "crypto";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { service, type, price, description, seller, username, password, notes, signature } = body;
+    const { service, type, price, description, seller, username, password, notes, signature, ipfsHash } = body;
 
     if (!service || !type || !price || !seller) {
       return NextResponse.json(
@@ -16,8 +16,6 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate a proper ZK-style Fair Exchange commitment hash
-    // The commitment is exactly SHA256(password). 
-    // The buyer will compute this locally after Escrow deposit to verify delivery before Releasing funds.
     let zkCommitment = "";
     if (password) {
       zkCommitment = createHash("sha256").update(password).digest("hex");
@@ -37,6 +35,7 @@ export async function POST(req: NextRequest) {
       notes: notes ?? "",
       signature,
       zkCommitment,
+      ipfsHash: ipfsHash ?? null,   // Store the IPFS CID — seller wallet + item permanently linked
       timestamp: Date.now(),
     });
 
