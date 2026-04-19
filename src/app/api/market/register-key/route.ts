@@ -16,7 +16,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ethers }                     from "ethers";
 import { storeKey, hasKey }           from "@/lib/market/key-store";
-import prisma                         from "@/lib/prisma";
+import { prisma }                     from "@/lib/db/listings-store";
 
 const MARKET_ABI = [
   "function getProduct(string memory _cid) external view returns (tuple(address seller, string cid, uint256 price, bool exists))"
@@ -73,8 +73,6 @@ export async function POST(req: NextRequest) {
       try {
         await prisma.listing.create({
           data: {
-            txId: `market-${cid}`, // Ensure unique txId since it hasn't actually confirmed
-            sender: sellerAddress,
             type: "account",
             service,
             price: Number(price),

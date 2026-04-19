@@ -12,7 +12,7 @@
  *     database column. The key store must be persistent across server restarts.
  */
 
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/db/listings-store";
 import { encryptForDatabase, decryptFromDatabase } from "./server-crypto";
 
 export async function storeKey(cid: string, secretKey: string, sellerWallet: string) {

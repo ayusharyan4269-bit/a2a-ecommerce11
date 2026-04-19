@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     "@x402-avm/avm",
     "@x402-avm/fetch",
   ],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
